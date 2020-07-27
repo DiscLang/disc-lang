@@ -1,0 +1,15 @@
+{
+  "name": "web-basic",
+  "version": "0.1.0",
+  "description": "Interactive programming language - computing for people",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./node_modules/mocha/bin/mocha ./test/**/*.test.js"
+  },
+  "author": "Chris Stead",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.0.1"
+  }
+}
