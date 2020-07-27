@@ -84,7 +84,36 @@ describe('Environment Table', function () {
             const varName = 'testVar';
             const testValue = 'This is a test value';
 
-            assert.throws(() => localScope.read(varName), `Variable '${varName}' has not been created.`);
+            assert.throws(() => localScope.read(varName), `Cannot read variable '${varName}'. It has not been created.`);
+        });
+    });
+
+    describe('update', function () {
+        it('updates the nearest-scoped variable', function () {
+            const parentScope = EnvironmentTable.new();
+            const localScope = parentScope.new();
+
+            const varName = 'testVar';
+            const value = 'This is a test value';
+            const updatedValue = 'New test value';
+
+            parentScope.initialize(varName, value);
+
+            localScope.update(varName, updatedValue);
+
+            assert.equal(parentScope.read(varName), updatedValue);
+        });
+
+        it('throws an error when trying to update a variable which does not exist', function () {
+            const parentScope = EnvironmentTable.new();
+            const localScope = parentScope.new();
+
+            const varName = 'testVar';
+            const updatedValue = 'New test value';
+
+            
+
+            assert.throws(() => localScope.update(varName, updatedValue), `Cannot update variable '${varName}'. It has not been created.`);
         });
     });
 });

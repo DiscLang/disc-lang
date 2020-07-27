@@ -41,12 +41,18 @@ const EnvironmentTable = (function () {
             } else if(this.parent !== null) {
                 return this.parent.read(key);
             } else {
-                throw new Error(`Variable '${key}' has not been created.`);
+                throw new Error(`Cannot read variable '${key}'. It has not been created.`);
             }
         },
         
         update: function (key, value) {
-            this.identifiers[key] = value;
+            if(typeof this.identifiers[key] !== 'undefined') {
+                this.identifiers[key] = value;
+            } else if(this.parent !== null) {
+                this.parent.update(key, value);
+            } else {
+                throw new Error(`Cannot update variable '${key}'. It has not been created.`);
+            }
         },
         
         new: function () {
