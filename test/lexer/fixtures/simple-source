@@ -1,0 +1,13 @@
+begin
+    let testVar be 1234
+    let result be (5 * (15 / 4) + 7)
+    let count be 0
+
+    # I am a comment. Don't interpret me!
+    loopWhile (isLessThan count 5)
+        print (concat "Current count is: " count)
+        print "This is a test of escaping '\"'."
+
+        assign count (count + 1)
+    end loopWhile
+end
