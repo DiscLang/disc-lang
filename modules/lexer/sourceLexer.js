@@ -55,7 +55,11 @@ const sourceLexer = (function () {
 
         function pushToken () {
             if(currentToken !== '') {
-                tokens.push(currentToken);
+                const capturedToken = currentToken[0] === '"'
+                    ? currentToken
+                    : currentToken.toLowerCase();
+
+                tokens.push(capturedToken);
             }
 
             currentToken = '';

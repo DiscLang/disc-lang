@@ -1,7 +1,7 @@
 const approvals = require('approvals');
 
 const config = {
-    reporters: ['meld'],
+    reporters: ['kdiff3'],
 
     normalizeLineEndingsTo: '\n',
     failOnLineEndingDifferences: true,

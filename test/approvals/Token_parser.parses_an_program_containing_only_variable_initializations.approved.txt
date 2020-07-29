@@ -1,0 +1,16 @@
+{
+    "type": "Program",
+    "body": [
+        {
+            "type": "InitializationExpression",
+            "identifier": {
+                "type": "Identifier",
+                "name": "test1"
+            },
+            "value": {
+                "type": "Literal",
+                "value": "0"
+            }
+        }
+    ]
+}

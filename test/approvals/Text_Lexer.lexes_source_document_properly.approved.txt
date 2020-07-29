@@ -4,7 +4,7 @@
     ],
     [
         "let",
-        "testVar",
+        "testvar",
         "be",
         "1234"
     ],
@@ -29,16 +29,16 @@
         "0"
     ],
     [
-        "loopWhile",
+        "loopwhile",
         "(",
-        "isLessThan",
+        "islessthan",
         "count",
         "5",
         ")"
     ],
     [
         "let",
-        "countString",
+        "countstring",
         "be",
         "(",
         "concat",
@@ -71,7 +71,7 @@
     [
         "if",
         "(",
-        "isEqual",
+        "isequal",
         "count",
         "4",
         ")"
