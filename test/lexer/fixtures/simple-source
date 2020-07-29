@@ -16,7 +16,7 @@ begin
 
     if (isEqual count 4)
         print "testing"
-    else if (false)
+    else if false
         print "this is also not supposed to run"
     else
         print "This should print"

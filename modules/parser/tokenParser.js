@@ -1,79 +1,49 @@
+const Program = require('./node-types/Program');
 const InitializationExpression = require('./node-types/InitializationExpression');
+const Identifier = require('./node-types/Identifier');
+const Literal = require('./node-types/Literal');
 
-const tokenParserFactory = (function (moduleFactory) {
-    const isNode = typeof module === 'object'
-        && module !== null
-        && typeof module.exports !== 'undefined';
+function parse(tokens) {
+    const [body] = parseBlockBody(tokens.slice(1));
+    return Program.new(body);
+}
 
-    if (isNode) {
-        const Program = require('./node-types/Program');
-        const InitializationExpression = require('./node-types/InitializationExpression');
-        const Identifier = require('./node-types/Identifier');
-        const Literal = require('./node-types/Literal');
+function parseBlockBody(tokenLines) {
+    const body = [];
+    let index = 0;
 
-        module.exports = moduleFactory({
-            Program,
-            InitializationExpression,
-            Identifier,
-            Literal
-        });
-    } else {
-        return moduleFactory({
-            Program,
-            InitializationExpression,
-            Identifier,
-            Literal
-        });
-    }
-})(function ({
-    Identifier,
-    InitializationExpression,
-    Literal,
-    Program
-}) {
-
-    function parse(tokens) {
-        const [body] = parseBlockBody(tokens.slice(1));
-        return Program.new(body);
+    if (tokenLines.length === 0) {
+        return body;
     }
 
-    function parseBlockBody(tokenLines) {
-        const body = [];
-        let index = 0;
+    while (
+        tokenLines[index][0] !== 'end' &&
+        index < tokenLines.length
+    ) {
+        const tokenLine = tokenLines[index];
 
-        if(tokenLines.length === 0) {
-            return body;
+        if (tokenLine[0] === 'let') {
+            const initialization = parseInitialization(tokenLine);
+            body.push(initialization);
         }
 
-        while (
-            tokenLines[index][0] !== 'end' &&
-            index < tokenLines.length
-        ) {
-            const tokenLine = tokenLines[index];
-
-            if(tokenLine[0] === 'let'){
-                const initialization = parseInitialization(tokenLine);
-                body.push(initialization);
-            }
-
-            index++;
-        }
-
-        return [body, index];
+        index++;
     }
 
-    function parseInitialization(tokenLine) {
-        const identifier = Identifier.new(tokenLine[1]);
-        const value = parseValue(tokenLine.slice(3));
+    return [body, index];
+}
 
-        return InitializationExpression.new(identifier, value);
-    }
+function parseInitialization(tokenLine) {
+    const identifier = Identifier.new(tokenLine[1]);
+    const value = parseValue(tokenLine.slice(3));
 
-    function parseValue(valueTokens) {
-        return Literal.new(valueTokens[0]);
-    }
+    return InitializationExpression.new(identifier, value);
+}
 
-    return {
-        parse
-    };
-});
+function parseValue(valueTokens) {
+    return Literal.new(valueTokens[0]);
+}
+
+module.exports = {
+    parse
+};
