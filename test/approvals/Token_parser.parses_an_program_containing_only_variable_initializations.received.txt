@@ -33,6 +33,17 @@
                 "type": "Literal",
                 "value": "Hello, World!"
             }
+        },
+        {
+            "type": "InitializationExpression",
+            "identifier": {
+                "type": "Identifier",
+                "name": "test4"
+            },
+            "value": {
+                "type": "Literal",
+                "value": null
+            }
         }
     ]
 }

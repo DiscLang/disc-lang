@@ -99,10 +99,7 @@ function lexLine(sourceLine) {
         }
     }
 
-    if (currentToken !== '') {
-        tokens.push(currentToken);
-    }
-
+    pushToken();
 
     return tokens;
 }

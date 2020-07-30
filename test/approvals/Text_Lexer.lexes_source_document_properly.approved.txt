@@ -1,6 +1,9 @@
 [
     [
-        "begin"
+        {
+            "token": "begin",
+            "type": "Identifier"
+        }
     ],
     [
         {
@@ -15,7 +18,10 @@
             "token": "be",
             "type": "Identifier"
         },
-        "1234"
+        {
+            "token": "1234",
+            "type": "Number"
+        }
     ],
     [
         {
@@ -62,7 +68,10 @@
             "token": "+",
             "type": "Operator"
         },
-        "7"
+        {
+            "token": "7",
+            "type": "Number"
+        }
     ],
     [
         {
@@ -77,7 +86,10 @@
             "token": "be",
             "type": "Identifier"
         },
-        "0"
+        {
+            "token": "0",
+            "type": "Number"
+        }
     ],
     [
         {
@@ -144,7 +156,10 @@
             "token": "print",
             "type": "Identifier"
         },
-        "countString"
+        {
+            "token": "countstring",
+            "type": "Identifier"
+        }
     ],
     [
         {
@@ -195,7 +210,10 @@
             "token": "end",
             "type": "Identifier"
         },
-        "loopWhile"
+        {
+            "token": "loopwhile",
+            "type": "Identifier"
+        }
     ],
     [
         {
@@ -242,7 +260,10 @@
             "token": "if",
             "type": "Identifier"
         },
-        "false"
+        {
+            "token": "false",
+            "type": "Boolean"
+        }
     ],
     [
         {
@@ -255,7 +276,10 @@
         }
     ],
     [
-        "else"
+        {
+            "token": "else",
+            "type": "Identifier"
+        }
     ],
     [
         {
@@ -272,9 +296,15 @@
             "token": "end",
             "type": "Identifier"
         },
-        "if"
+        {
+            "token": "if",
+            "type": "Identifier"
+        }
     ],
     [
-        "end"
+        {
+            "token": "end",
+            "type": "Identifier"
+        }
     ]
 ]

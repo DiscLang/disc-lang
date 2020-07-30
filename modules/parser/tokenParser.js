@@ -17,12 +17,13 @@ function parseBlockBody(tokenLines) {
     }
 
     while (
-        tokenLines[index][0] !== 'end' &&
+        tokenLines[index] &&
+        tokenLines[index][0].token !== 'end' &&
         index < tokenLines.length
     ) {
         const tokenLine = tokenLines[index];
 
-        if (tokenLine[0] === 'let') {
+        if (tokenLine[0].token === 'let') {
             const initialization = parseInitialization(tokenLine);
             body.push(initialization);
         }
@@ -34,7 +35,7 @@ function parseBlockBody(tokenLines) {
 }
 
 function parseInitialization(tokenLine) {
-    const identifier = Identifier.new(tokenLine[1]);
+    const identifier = Identifier.new(tokenLine[1].token);
     const value = parseValue(tokenLine.slice(3));
 
     return InitializationExpression.new(identifier, value);
