@@ -5,20 +5,20 @@ begin
 
     # I am a comment. Don't interpret me!
     
-    loopWhile (isLessThan count 5)
-        let countString be (concat "Current count is: " count)
+    loopWhile isLessThan: count 5
+        let countString be (concat: "Current count is: " count)
 
-        print countString
-        print "This is a test of escaping '\"'."
+        print: countString
+        print: "This is a test of escaping '\"'."
 
         update count to (count + 1)
     end loopWhile
 
-    if (isEqual count 4)
-        print "testing"
+    if isEqual: count 4
+        print: "testing"
     else if false
-        print "this is also not supposed to run"
+        print: "this is also not supposed to run"
     else
-        print "This should print"
+        print: "This should print"
     end if
 end

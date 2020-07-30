@@ -26,6 +26,10 @@ function getTokenType(value) {
 }
 
 module.exports = {
-    grammar,
+    grammarTypes: Object.keys(grammar).reduce(function (result, key) {
+        result['is' + key] = grammar[key];
+
+        return result;
+    }, {}),
     getTokenType
 };

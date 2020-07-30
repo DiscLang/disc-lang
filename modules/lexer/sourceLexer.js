@@ -20,10 +20,6 @@ function isWhitespace(character) {
     return character === ' ';
 }
 
-function isTokenSymbol(character) {
-    return '+-*/()'.includes(character);
-}
-
 function captureString(characterSet) {
     let finalString = '';
     let characterOffset = 0;
@@ -78,7 +74,7 @@ function lexLine(sourceLine) {
 
         if (currentChar === '#') {
             break;
-        } else if (isTokenSymbol(currentChar)) {
+        } else if (grammar.grammarTypes.isOperator(currentChar)) {
             pushToken();
 
             currentToken = currentChar;

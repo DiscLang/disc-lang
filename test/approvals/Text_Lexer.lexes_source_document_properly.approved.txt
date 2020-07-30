@@ -97,12 +97,12 @@
             "type": "Identifier"
         },
         {
-            "token": "(",
-            "type": "Operator"
-        },
-        {
             "token": "islessthan",
             "type": "Identifier"
+        },
+        {
+            "token": ":",
+            "type": "Operator"
         },
         {
             "token": "count",
@@ -111,10 +111,6 @@
         {
             "token": "5",
             "type": "Number"
-        },
-        {
-            "token": ")",
-            "type": "Operator"
         }
     ],
     [
@@ -139,6 +135,10 @@
             "type": "Identifier"
         },
         {
+            "token": ":",
+            "type": "Operator"
+        },
+        {
             "token": "\"Current count is: \"",
             "type": "String"
         },
@@ -157,6 +157,10 @@
             "type": "Identifier"
         },
         {
+            "token": ":",
+            "type": "Operator"
+        },
+        {
             "token": "countstring",
             "type": "Identifier"
         }
@@ -165,6 +169,10 @@
         {
             "token": "print",
             "type": "Identifier"
+        },
+        {
+            "token": ":",
+            "type": "Operator"
         },
         {
             "token": "\"This is a test of escaping '\"'.\"",
@@ -221,12 +229,12 @@
             "type": "Identifier"
         },
         {
-            "token": "(",
-            "type": "Operator"
-        },
-        {
             "token": "isequal",
             "type": "Identifier"
+        },
+        {
+            "token": ":",
+            "type": "Operator"
         },
         {
             "token": "count",
@@ -235,16 +243,16 @@
         {
             "token": "4",
             "type": "Number"
-        },
-        {
-            "token": ")",
-            "type": "Operator"
         }
     ],
     [
         {
             "token": "print",
             "type": "Identifier"
+        },
+        {
+            "token": ":",
+            "type": "Operator"
         },
         {
             "token": "\"testing\"",
@@ -271,6 +279,10 @@
             "type": "Identifier"
         },
         {
+            "token": ":",
+            "type": "Operator"
+        },
+        {
             "token": "\"this is also not supposed to run\"",
             "type": "String"
         }
@@ -285,6 +297,10 @@
         {
             "token": "print",
             "type": "Identifier"
+        },
+        {
+            "token": ":",
+            "type": "Operator"
         },
         {
             "token": "\"This should print\"",
