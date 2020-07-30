@@ -3,6 +3,31 @@
     "body": [
         {
             "type": "InitializationExpression",
+            "variableType": "define",
+            "identifier": {
+                "type": "Identifier",
+                "name": "pi"
+            },
+            "value": {
+                "type": "Literal",
+                "value": 3.14159
+            }
+        },
+        {
+            "type": "InitializationExpression",
+            "variableType": "define",
+            "identifier": {
+                "type": "Identifier",
+                "name": "e"
+            },
+            "value": {
+                "type": "Literal",
+                "value": 2.71828
+            }
+        },
+        {
+            "type": "InitializationExpression",
+            "variableType": "let",
             "identifier": {
                 "type": "Identifier",
                 "name": "test1"
@@ -14,6 +39,7 @@
         },
         {
             "type": "InitializationExpression",
+            "variableType": "let",
             "identifier": {
                 "type": "Identifier",
                 "name": "test2"
@@ -25,6 +51,7 @@
         },
         {
             "type": "InitializationExpression",
+            "variableType": "let",
             "identifier": {
                 "type": "Identifier",
                 "name": "test3"
@@ -32,6 +59,18 @@
             "value": {
                 "type": "Literal",
                 "value": "Hello, World!"
+            }
+        },
+        {
+            "type": "InitializationExpression",
+            "variableType": "let",
+            "identifier": {
+                "type": "Identifier",
+                "name": "test4"
+            },
+            "value": {
+                "type": "Identifier",
+                "name": "pi"
             }
         }
     ]

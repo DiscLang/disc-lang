@@ -1,6 +1,7 @@
-function InitializationExpression(identifier, value) {
+function InitializationExpression(variableType, identifier, value) {
     this.type = 'InitializationExpression';
 
+    this.variableType = variableType
     this.identifier = identifier;
     this.value = value;
 }
@@ -8,8 +9,8 @@ function InitializationExpression(identifier, value) {
 InitializationExpression.prototype = {
 }
 
-InitializationExpression.new = function (identifier, value) {
-    return new InitializationExpression(identifier, value);
+InitializationExpression.new = function (variableType, identifier, value) {
+    return new InitializationExpression(variableType, identifier, value);
 };
 
 module.exports = InitializationExpression;
