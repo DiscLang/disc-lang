@@ -1,5 +1,16 @@
 const grammar = require('./grammar');
 
+const tokenTypes = grammar.tokenTypes;
+const {
+    stringBeginIndicator,
+    stringEndIndicator,
+    stringEscapeCharacter,
+    commentCharacter,
+    whitespaceCharacter,
+    subtractionToken
+} = grammar.characterSet;
+
+
 function lexSource(sourceCode) {
     const sourceLines = sourceCode.split(/\r?\n/);
     const sourceLineTokens = [];
@@ -17,7 +28,7 @@ function lexSource(sourceCode) {
 }
 
 function isWhitespace(character) {
-    return character === ' ';
+    return character === whitespaceCharacter;
 }
 
 function captureString(characterSet) {
@@ -27,13 +38,12 @@ function captureString(characterSet) {
     for (let i = 0; i < characterSet.length; i++) {
         const currentCharacter = characterSet[i];
 
-        if (currentCharacter === '\\') {
+        if (currentCharacter === stringEscapeCharacter) {
             finalString += characterSet[i + 1];
             i++;
-        } else if (currentCharacter !== '"') {
+        } else if (currentCharacter !== stringEndIndicator) {
             finalString += currentCharacter;
         } else {
-            // console.log(currentCharacter);
             characterOffset = i + 1;
             break;
         }
@@ -54,7 +64,7 @@ function buildToken(tokenString) {
 function getTokenCapture(tokens) {
     return function pushToken(token) {
         if (token !== '') {
-            const capturedToken = token[0] === '"'
+            const capturedToken = token[0] === stringBeginIndicator
                 ? token
                 : token.toLowerCase();
 
@@ -67,18 +77,23 @@ function lexLine(sourceLine) {
     const sourceChars = sourceLine.split('');
     const tokens = [];
 
-    let currentToken = '';
+    let currentToken;
 
     const captureToken = getTokenCapture(tokens);
+
+    const resetCurrentToken = () => currentToken = '';
+
     const pushToken = () => {
         captureToken(currentToken);
-        currentToken = '';
+        resetCurrentToken();
     }
+
+    resetCurrentToken();
 
     for (let i = 0; i < sourceChars.length; i++) {
         const currentChar = sourceChars[i];
 
-        if (currentChar === '#') {
+        if (currentChar === commentCharacter) {
             break;
         } else if (
             grammar.grammarTypes.isOperator(currentChar)
@@ -89,13 +104,18 @@ function lexLine(sourceLine) {
             pushToken();
 
             currentToken = currentChar;
-            pushToken();
-        } else if (currentChar === '"') {
+
+            const lastToken = tokens[tokens.length - 1];
+
+            if (currentChar !== subtractionToken || lastToken.type === tokenTypes.Number || lastToken.type === tokenTypes.CloseExpressionDelimiter) {
+                pushToken();
+            }
+        } else if (currentChar === stringBeginIndicator) {
             pushToken();
 
             const [newString, characterOffset] = captureString(sourceChars.slice(i + 1));
 
-            currentToken = `"${newString}"`;
+            currentToken = `${stringBeginIndicator}${newString}${stringEndIndicator}`;
             pushToken();
 
             i += characterOffset;

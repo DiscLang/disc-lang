@@ -1,20 +1,26 @@
-const characterSet = {
-    operators: ['+', '-', '*', '/'],
-    openExpressionDelimiter: '(',
-    closeExpressionDelimiter: ')',
-    functionExecutionIndicator: ':',
-    stringIndicator: '"'
-};
-
 const booleanOptions = ['true', 'false'];
 const openBlockDelimiter = 'begin';
 const closeBlockDelimiter = 'end';
+const subtractionToken = '-';
+
+const characterSet = {
+    operators: ['+', subtractionToken, '*', '/'],
+    openExpressionDelimiter: '(',
+    closeExpressionDelimiter: ')',
+    functionExecutionIndicator: ':',
+    stringBeginIndicator: '"',
+    stringEndIndicator: '"',
+    stringEscapeCharacter: '\\',
+    commentCharacter: '#',
+    whitespaceCharacter: ' ',
+    subtractionToken: subtractionToken
+};
 
 const grammar = {
     'Number': (value) => /^\-?[0-9]+(\.[0-9]+)?$/.test(value),
     'Boolean': (value) => booleanOptions.includes(value.toLowerCase()),
-    'String': (value) => value[0] === characterSet.stringIndicator
-        && value[value.length - 1] === characterSet.stringIndicator,
+    'String': (value) => value[0] === characterSet.stringBeginIndicator
+        && value[value.length - 1] === characterSet.stringEndIndicator,
 
     'Operator': (value) => characterSet.operators.includes(value),
     'FunctionExecutionIndicator': (value) => value === characterSet.functionExecutionIndicator,
@@ -53,5 +59,11 @@ module.exports = {
 
         return result;
     }, {}),
-    getTokenType
+    tokenTypes: Object.keys(grammar).reduce(function (tokenTypes, key) {
+        tokenTypes[key] = key;
+
+        return tokenTypes;
+    }, {}),
+    getTokenType,
+    characterSet
 };
