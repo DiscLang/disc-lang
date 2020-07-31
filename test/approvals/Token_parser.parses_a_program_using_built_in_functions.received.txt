@@ -60,6 +60,32 @@
                     }
                 ]
             }
+        },
+        {
+            "type": "Group",
+            "body": {
+                "type": "FunctionCall",
+                "name": "print",
+                "arguments": [
+                    {
+                        "type": "Group",
+                        "body": {
+                            "type": "FunctionCall",
+                            "name": "random",
+                            "arguments": [
+                                {
+                                    "type": "Literal",
+                                    "value": 0
+                                },
+                                {
+                                    "type": "Literal",
+                                    "value": 1
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
         }
     ]
 }

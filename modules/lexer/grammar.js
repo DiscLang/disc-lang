@@ -5,8 +5,8 @@ const subtractionToken = '-';
 
 const characterSet = {
     operators: ['+', subtractionToken, '*', '/'],
-    openExpressionDelimiter: '(',
-    closeExpressionDelimiter: ')',
+    openGroupDelimiter: '(',
+    closeGroupDelimiter: ')',
     functionExecutionIndicator: ':',
     stringBeginIndicator: '"',
     stringEndIndicator: '"',
@@ -25,8 +25,8 @@ const grammar = {
     'Operator': (value) => characterSet.operators.includes(value),
     'FunctionExecutionIndicator': (value) => value === characterSet.functionExecutionIndicator,
 
-    'OpenExpressionDelimiter': (value) => value === characterSet.openExpressionDelimiter,
-    'CloseExpressionDelimiter': (value) => value === characterSet.closeExpressionDelimiter,
+    'OpenGroupDelimiter': (value) => value === characterSet.openGroupDelimiter,
+    'CloseGroupDelimiter': (value) => value === characterSet.closeGroupDelimiter,
 
     'OpenBlockDelimiter': (value) => value.toLowerCase() === openBlockDelimiter,
     'CloseBlockDelimiter': (value) => value.toLowerCase() === closeBlockDelimiter,

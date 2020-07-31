@@ -97,8 +97,8 @@ function lexLine(sourceLine) {
             break;
         } else if (
             grammar.grammarTypes.isOperator(currentChar)
-            || grammar.grammarTypes.isOpenExpressionDelimiter(currentChar)
-            || grammar.grammarTypes.isCloseExpressionDelimiter(currentChar)
+            || grammar.grammarTypes.isOpenGroupDelimiter(currentChar)
+            || grammar.grammarTypes.isCloseGroupDelimiter(currentChar)
             || grammar.grammarTypes.isFunctionExecutionIndicator(currentChar)
         ) {
             pushToken();
@@ -107,7 +107,11 @@ function lexLine(sourceLine) {
 
             const lastToken = tokens[tokens.length - 1];
 
-            if (currentChar !== subtractionToken || lastToken.type === tokenTypes.Number || lastToken.type === tokenTypes.CloseExpressionDelimiter) {
+            if (
+                currentChar !== subtractionToken
+                || lastToken.type === tokenTypes.Number
+                || lastToken.type === tokenTypes.CloseGroupDelimiter
+            ) {
                 pushToken();
             }
         } else if (currentChar === stringBeginIndicator) {
