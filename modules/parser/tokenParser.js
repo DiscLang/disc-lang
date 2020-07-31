@@ -2,6 +2,7 @@ const Program = require('./node-types/Program');
 const InitializationExpression = require('./node-types/InitializationExpression');
 const Identifier = require('./node-types/Identifier');
 const Literal = require('./node-types/Literal');
+const FunctionCall = require('./node-types/FunctionCall');
 
 function parse(tokens) {
     const [body] = parseBlockBody(tokens.slice(1));
@@ -11,7 +12,6 @@ function parse(tokens) {
 function parseBlockBody(tokenLines) {
     const body = [];
     let index = 0;
-    let unprocessedLines = [];
 
     if (tokenLines.length === 0) {
         return body;
@@ -24,46 +24,89 @@ function parseBlockBody(tokenLines) {
     ) {
         const tokenLine = tokenLines[index];
 
-        if (isVariableInitialization(tokenLine)) {
-            const initialization = parseInitialization(tokenLine);
-            body.push(initialization);
-        } else {
-            unprocessedLines.push(tokenLine);
-        }
+        const parsedLine = parseTokenSet(tokenLine);
+        body.push(parsedLine);
 
         index++;
-    }
-
-    if(unprocessedLines.length > 0) {
-        const firstBadLine = unprocessedLines[0]
-            .map(token => token.token)
-            .join(' ');
-
-        throw new Error("Unable to interpret this program, failing line: " + firstBadLine);
     }
 
     return [body, index];
 }
 
-function isVariableInitialization(tokenLine) {
-    return (tokenLine[0].token === 'let' && tokenLine[2].token === 'be')
-        || (tokenLine[0].token === 'define' && tokenLine[2].token === 'as');
+const parsers = [
+    [isLiteral, parseLiteral],
+    [isIdentifier, parseIdentifier],
+    [isVariableInitialization, parseVariableInitialization],
+    [isFunctionCall, parseFunctionCall]
+];
+
+function parseTokenSet(tokenSet) {
+    const parser = parsers.find(parserPair => parserPair[0](tokenSet));
+
+    if (Boolean(parser)) {
+        return parser[1](tokenSet);
+    } else if(tokenSet.length > 0 && tokenSet[0].type !== 'operator') {
+        return [parseTokenSet([tokenSet[0]])].concat(parseTokenSet(tokenSet.slice(1)));
+    } else {
+        throwUnparseableError(tokenSet);
+    }
 }
 
-function parseInitialization(tokenLine) {
+function throwUnparseableError(tokenSet) {
+    throw new Error("Unable to interpret this program, failing line: " + tokenSet);
+}
+
+function isVariableInitialization(tokenLine) {
+    return tokenLine.length > 3 &&
+        ((tokenLine[0].token === 'let' && tokenLine[2].token === 'be')
+            || (tokenLine[0].token === 'define' && tokenLine[2].token === 'as'));
+}
+
+function isFunctionCall(tokenSet) {
+    return tokenSet.length > 2 &
+        tokenSet[0].type === 'Identifier' &&
+        tokenSet[1].type === 'Operator' &&
+        tokenSet[1].token === ':'
+}
+
+const literalTypes = ['Number', 'Boolean', 'String'];
+
+function isLiteral(tokenSet) {
+    return tokenSet.length === 1
+        && literalTypes.includes(tokenSet[0].type);
+}
+
+function isIdentifier(tokenSet) {
+    return tokenSet.length === 1
+        && tokenSet[0].type === 'Identifier'
+}
+
+function parseVariableInitialization(tokenLine) {
     const variableType = tokenLine[0].token;
     const identifier = Identifier.new(tokenLine[1].token);
-    const value = parseValue(tokenLine.slice(3));
+    const value = parseTokenSet(tokenLine.slice(3));
 
     return InitializationExpression.new(variableType, identifier, value);
 }
 
-function parseValue(valueTokens) {
-    if(['Number', 'Boolean', 'String'].includes(valueTokens[0].type)) {
-        return Literal.new(valueTokens[0]);
-    } else if(valueTokens[0].type === 'Identifier') {
-        return Identifier.new(valueTokens[0].token);
-    }
+function parseLiteral(tokenSet) {
+    return Literal.new(tokenSet[0]);
+}
+
+function parseIdentifier(tokenSet) {
+    return Identifier.new(tokenSet[0].token);
+}
+
+function parseFunctionCall(tokenSet) {
+    const functionCall = FunctionCall.new(tokenSet[0].token);
+    const remainingTokens = tokenSet.slice(2);
+
+    const parsedArgs = parseTokenSet(remainingTokens);
+    const functionArgs = Array.isArray(parsedArgs) ? parsedArgs : [parsedArgs];
+
+    functionCall.addArguments(functionArgs);
+
+    return functionCall;
 }
 
 module.exports = {

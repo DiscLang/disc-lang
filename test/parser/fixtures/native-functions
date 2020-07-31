@@ -1,0 +1,5 @@
+begin
+    print: "this is a test"
+    let result be power: 3 2
+    let result be floor: random: 0 10
+end

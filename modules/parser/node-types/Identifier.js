@@ -10,7 +10,4 @@ Identifier.new = function (name) {
     return new Identifier(name);
 };
 
-
-
-
 module.exports = Identifier;

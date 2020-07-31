@@ -1,0 +1,65 @@
+{
+    "type": "Program",
+    "body": [
+        {
+            "type": "FunctionCall",
+            "name": "print",
+            "arguments": [
+                {
+                    "type": "Literal",
+                    "value": "this is a test"
+                }
+            ]
+        },
+        {
+            "type": "InitializationExpression",
+            "variableType": "let",
+            "identifier": {
+                "type": "Identifier",
+                "name": "result"
+            },
+            "value": {
+                "type": "FunctionCall",
+                "name": "power",
+                "arguments": [
+                    {
+                        "type": "Literal",
+                        "value": 3
+                    },
+                    {
+                        "type": "Literal",
+                        "value": 2
+                    }
+                ]
+            }
+        },
+        {
+            "type": "InitializationExpression",
+            "variableType": "let",
+            "identifier": {
+                "type": "Identifier",
+                "name": "result"
+            },
+            "value": {
+                "type": "FunctionCall",
+                "name": "floor",
+                "arguments": [
+                    {
+                        "type": "FunctionCall",
+                        "name": "random",
+                        "arguments": [
+                            {
+                                "type": "Literal",
+                                "value": 0
+                            },
+                            {
+                                "type": "Literal",
+                                "value": 10
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}
