@@ -65,8 +65,7 @@ function isVariableInitialization(tokenLine) {
 function isFunctionCall(tokenSet) {
     return tokenSet.length > 2 &
         tokenSet[0].type === 'Identifier' &&
-        tokenSet[1].type === 'Operator' &&
-        tokenSet[1].token === ':'
+        tokenSet[1].type === 'FunctionExecutionIndicator'
 }
 
 const literalTypes = ['Number', 'Boolean', 'String'];

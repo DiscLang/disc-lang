@@ -82,7 +82,9 @@ function lexLine(sourceLine) {
             break;
         } else if (
             grammar.grammarTypes.isOperator(currentChar)
-            || grammar.grammarTypes.isExpressionDelimiter(currentChar)
+            || grammar.grammarTypes.isOpenExpressionDelimiter(currentChar)
+            || grammar.grammarTypes.isCloseExpressionDelimiter(currentChar)
+            || grammar.grammarTypes.isFunctionExecutionIndicator(currentChar)
         ) {
             pushToken();
 

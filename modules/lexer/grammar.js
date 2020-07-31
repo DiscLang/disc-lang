@@ -1,10 +1,31 @@
+const characterSet = {
+    operators: ['+', '-', '*', '/'],
+    openExpressionDelimiter: '(',
+    closeExpressionDelimiter: ')',
+    functionExecutionIndicator: ':',
+    stringIndicator: '"'
+};
+
+const booleanOptions = ['true', 'false'];
+const openBlockDelimiter = 'begin';
+const closeBlockDelimiter = 'end';
+
 const grammar = {
-    'Operator': (value) => ['+', '-', '*', '/', ':'].includes(value),
-    'ExpressionDelimiter': (value) => ['(', ')'].includes(value),
     'Number': (value) => /^\-?[0-9]+(\.[0-9]+)?$/.test(value),
-    'Boolean': (value) => !(value.length > 5) && (value.toLowerCase() === 'true' || value.toLowerCase() === 'false'),
-    'String': (value) => value[0] === '"' && value[value.length - 1] === '"',
-    'Identifier': (value) => !(/^(\"|\-|[0-9])/.test(value))
+    'Boolean': (value) => booleanOptions.includes(value.toLowerCase()),
+    'String': (value) => value[0] === characterSet.stringIndicator
+        && value[value.length - 1] === characterSet.stringIndicator,
+
+    'Operator': (value) => characterSet.operators.includes(value),
+    'FunctionExecutionIndicator': (value) => value === characterSet.functionExecutionIndicator,
+
+    'OpenExpressionDelimiter': (value) => value === characterSet.openExpressionDelimiter,
+    'CloseExpressionDelimiter': (value) => value === characterSet.closeExpressionDelimiter,
+
+    'OpenBlockDelimiter': (value) => value.toLowerCase() === openBlockDelimiter,
+    'CloseBlockDelimiter': (value) => value.toLowerCase() === closeBlockDelimiter,
+
+    'Identifier': () => true,
 };
 
 const grammarCheckList = Object
