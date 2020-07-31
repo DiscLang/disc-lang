@@ -1,5 +1,6 @@
 const grammar = {
-    'Operator': (value) => ['+', '-', '*', '/', ':', '(', ')'].includes(value),
+    'Operator': (value) => ['+', '-', '*', '/', ':'].includes(value),
+    'ExpressionDelimiter': (value) => ['(', ')'].includes(value),
     'Number': (value) => /^\-?[0-9]+(\.[0-9]+)?$/.test(value),
     'Boolean': (value) => !(value.length > 5) && (value.toLowerCase() === 'true' || value.toLowerCase() === 'false'),
     'String': (value) => value[0] === '"' && value[value.length - 1] === '"',

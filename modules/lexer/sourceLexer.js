@@ -51,21 +51,27 @@ function buildToken(tokenString) {
     }
 }
 
+function getTokenCapture(tokens) {
+    return function pushToken(token) {
+        if (token !== '') {
+            const capturedToken = token[0] === '"'
+                ? token
+                : token.toLowerCase();
+
+            tokens.push(buildToken(capturedToken));
+        }
+    }
+}
+
 function lexLine(sourceLine) {
     const sourceChars = sourceLine.split('');
     const tokens = [];
 
     let currentToken = '';
 
-    function pushToken() {
-        if (currentToken !== '') {
-            const capturedToken = currentToken[0] === '"'
-                ? currentToken
-                : currentToken.toLowerCase();
-
-            tokens.push(buildToken(capturedToken));
-        }
-
+    const captureToken = getTokenCapture(tokens);
+    const pushToken = () => {
+        captureToken(currentToken);
         currentToken = '';
     }
 
@@ -74,7 +80,10 @@ function lexLine(sourceLine) {
 
         if (currentChar === '#') {
             break;
-        } else if (grammar.grammarTypes.isOperator(currentChar)) {
+        } else if (
+            grammar.grammarTypes.isOperator(currentChar)
+            || grammar.grammarTypes.isExpressionDelimiter(currentChar)
+        ) {
             pushToken();
 
             currentToken = currentChar;
