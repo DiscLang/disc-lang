@@ -6,6 +6,12 @@ function Program(body) {
 Program.prototype = {
     addBodyNode: function (newNode) {
         this.body.push(newNode);
+    },
+
+    execute: function (scope) {
+        this.body.forEach(function(node) {
+            node.execute(scope);
+        });
     }
 }
 

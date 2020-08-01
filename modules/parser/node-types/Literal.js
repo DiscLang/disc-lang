@@ -17,6 +17,9 @@ function Literal(token) {
 }
 
 Literal.prototype = {
+    execute: function () {
+        return this.value;
+    }
 }
 
 Literal.new = function (value) {

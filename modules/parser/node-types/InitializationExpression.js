@@ -7,6 +7,17 @@ function InitializationExpression(variableType, identifier, value) {
 }
 
 InitializationExpression.prototype = {
+    execute: function (scope) {
+        const literalValue = this.value.execute(scope);
+
+        if(this.variableType === 'let') {
+            scope.initialize(this.identifier.name, literalValue);
+        } else {
+            scope.define(this.identifier.name, literalValue);
+        }
+
+        return literalValue;
+    }
 }
 
 InitializationExpression.new = function (variableType, identifier, value) {

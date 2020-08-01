@@ -6,6 +6,10 @@ function Group() {
 Group.prototype = {
     setBody: function (body) {
         this.body = body;
+    },
+
+    execute: function (scope) {
+        return this.body.execute(scope);
     }
 }
 

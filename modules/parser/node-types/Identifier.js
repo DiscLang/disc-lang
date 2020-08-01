@@ -4,6 +4,11 @@ function Identifier(name) {
 }
 
 Identifier.prototype = {
+    execute: function (scope) {
+        const value = scope.read(this.name);
+
+        return value;
+    }
 }
 
 Identifier.new = function (name) {

@@ -1,0 +1,10 @@
+begin
+    let name be "Chris"
+
+    let greeting be join: "Hi, " name "!"
+    let message be "Your programming language works!"
+
+    print: join: greeting " " message
+    print: ""
+    print: join: "I need a name, " name "."
+end
