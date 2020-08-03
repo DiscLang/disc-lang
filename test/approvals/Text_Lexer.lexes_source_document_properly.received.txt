@@ -1,0 +1,326 @@
+[
+    [
+        {
+            "token": "begin",
+            "type": "OpenBlockDelimiter"
+        }
+    ],
+    [
+        {
+            "token": "let",
+            "type": "Identifier"
+        },
+        {
+            "token": "testvar",
+            "type": "Identifier"
+        },
+        {
+            "token": "be",
+            "type": "Identifier"
+        },
+        {
+            "token": "1234",
+            "type": "Number"
+        }
+    ],
+    [
+        {
+            "token": "let",
+            "type": "Identifier"
+        },
+        {
+            "token": "result",
+            "type": "Identifier"
+        },
+        {
+            "token": "be",
+            "type": "Identifier"
+        },
+        {
+            "token": "5",
+            "type": "Number"
+        },
+        {
+            "token": "*",
+            "type": "Operator"
+        },
+        {
+            "token": "(",
+            "type": "OpenGroupDelimiter"
+        },
+        {
+            "token": "15",
+            "type": "Number"
+        },
+        {
+            "token": "/",
+            "type": "Operator"
+        },
+        {
+            "token": "4",
+            "type": "Number"
+        },
+        {
+            "token": ")",
+            "type": "CloseGroupDelimiter"
+        },
+        {
+            "token": "+",
+            "type": "Operator"
+        },
+        {
+            "token": "7",
+            "type": "Number"
+        }
+    ],
+    [
+        {
+            "token": "let",
+            "type": "Identifier"
+        },
+        {
+            "token": "count",
+            "type": "Identifier"
+        },
+        {
+            "token": "be",
+            "type": "Identifier"
+        },
+        {
+            "token": "0",
+            "type": "Number"
+        }
+    ],
+    [
+        {
+            "token": "loopwhile",
+            "type": "Identifier"
+        },
+        {
+            "token": "islessthan",
+            "type": "Identifier"
+        },
+        {
+            "token": ":",
+            "type": "FunctionExecutionIndicator"
+        },
+        {
+            "token": "count",
+            "type": "Identifier"
+        },
+        {
+            "token": "5",
+            "type": "Number"
+        }
+    ],
+    [
+        {
+            "token": "let",
+            "type": "Identifier"
+        },
+        {
+            "token": "countstring",
+            "type": "Identifier"
+        },
+        {
+            "token": "be",
+            "type": "Identifier"
+        },
+        {
+            "token": "(",
+            "type": "OpenGroupDelimiter"
+        },
+        {
+            "token": "concat",
+            "type": "Identifier"
+        },
+        {
+            "token": ":",
+            "type": "FunctionExecutionIndicator"
+        },
+        {
+            "token": "\"Current count is: \"",
+            "type": "String"
+        },
+        {
+            "token": "count",
+            "type": "Identifier"
+        },
+        {
+            "token": ")",
+            "type": "CloseGroupDelimiter"
+        }
+    ],
+    [
+        {
+            "token": "print",
+            "type": "Identifier"
+        },
+        {
+            "token": ":",
+            "type": "FunctionExecutionIndicator"
+        },
+        {
+            "token": "countstring",
+            "type": "Identifier"
+        }
+    ],
+    [
+        {
+            "token": "print",
+            "type": "Identifier"
+        },
+        {
+            "token": ":",
+            "type": "FunctionExecutionIndicator"
+        },
+        {
+            "token": "\"This is a test of escaping '\"'.\"",
+            "type": "String"
+        }
+    ],
+    [
+        {
+            "token": "update",
+            "type": "Identifier"
+        },
+        {
+            "token": "count",
+            "type": "Identifier"
+        },
+        {
+            "token": "to",
+            "type": "Identifier"
+        },
+        {
+            "token": "(",
+            "type": "OpenGroupDelimiter"
+        },
+        {
+            "token": "count",
+            "type": "Identifier"
+        },
+        {
+            "token": "+",
+            "type": "Operator"
+        },
+        {
+            "token": "1",
+            "type": "Number"
+        },
+        {
+            "token": ")",
+            "type": "CloseGroupDelimiter"
+        }
+    ],
+    [
+        {
+            "token": "end",
+            "type": "CloseBlockDelimiter"
+        },
+        {
+            "token": "loopwhile",
+            "type": "Identifier"
+        }
+    ],
+    [
+        {
+            "token": "if",
+            "type": "Identifier"
+        },
+        {
+            "token": "isequal",
+            "type": "Identifier"
+        },
+        {
+            "token": ":",
+            "type": "FunctionExecutionIndicator"
+        },
+        {
+            "token": "count",
+            "type": "Identifier"
+        },
+        {
+            "token": "4",
+            "type": "Number"
+        }
+    ],
+    [
+        {
+            "token": "print",
+            "type": "Identifier"
+        },
+        {
+            "token": ":",
+            "type": "FunctionExecutionIndicator"
+        },
+        {
+            "token": "\"testing\"",
+            "type": "String"
+        }
+    ],
+    [
+        {
+            "token": "else",
+            "type": "Identifier"
+        },
+        {
+            "token": "if",
+            "type": "Identifier"
+        },
+        {
+            "token": "false",
+            "type": "Boolean"
+        }
+    ],
+    [
+        {
+            "token": "print",
+            "type": "Identifier"
+        },
+        {
+            "token": ":",
+            "type": "FunctionExecutionIndicator"
+        },
+        {
+            "token": "\"this is also not supposed to run\"",
+            "type": "String"
+        }
+    ],
+    [
+        {
+            "token": "else",
+            "type": "Identifier"
+        }
+    ],
+    [
+        {
+            "token": "print",
+            "type": "Identifier"
+        },
+        {
+            "token": ":",
+            "type": "FunctionExecutionIndicator"
+        },
+        {
+            "token": "\"This should print\"",
+            "type": "String"
+        }
+    ],
+    [
+        {
+            "token": "end",
+            "type": "CloseBlockDelimiter"
+        },
+        {
+            "token": "if",
+            "type": "Identifier"
+        }
+    ],
+    [
+        {
+            "token": "end",
+            "type": "CloseBlockDelimiter"
+        }
+    ]
+]

@@ -19,32 +19,26 @@ function getTokenString(tokenSet) {
 }
 
 function parse(tokens) {
-    const [body] = parseBlockBody(tokens.slice(1));
+    const body = parseBlockBody(tokens.slice(1));
     return Program.new(body);
 }
 
 function parseBlockBody(tokenLines) {
     const body = [];
-    let index = 0;
-
-    if (tokenLines.length === 0) {
-        return body;
-    }
 
     while (
-        tokenLines[index] &&
-        tokenLines[index][0].token !== 'end' &&
-        index < tokenLines.length
+        tokenLines[0][0].token !== 'end' &&
+        tokenLines.length > 0
     ) {
-        const tokenLine = tokenLines[index];
+        const tokenLine = tokenLines[0];
 
         const parsedLine = parseTokenSet(tokenLine.slice(0));
         body.push(parsedLine);
 
-        index++;
+        cut(tokenLines, 1);
     }
 
-    return [body, index];
+    return body;
 }
 
 function getParsedGroupToken(parsedGroup) {
