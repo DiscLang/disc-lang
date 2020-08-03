@@ -7,6 +7,14 @@ function InitializationExpression(variableType, identifier, value) {
 }
 
 InitializationExpression.prototype = {
+    toString: function () {
+        if(this.variableType === 'let') {
+            return `let ${this.identifier.toString()} be ${this.value.toString()}`;
+        } else {
+            return `define ${this.identifier.toString()} as ${this.value.toString()}`;
+        }
+    },
+
     execute: function (scope) {
         const literalValue = this.value.execute(scope);
 

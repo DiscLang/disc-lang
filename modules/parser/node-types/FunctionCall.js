@@ -9,10 +9,16 @@ FunctionCall.prototype = {
         this.arguments = parsedArguments;
     },
 
+    toString: function () {
+        const argumentStrings = this.arguments.map(argument => argument.toString());
+
+        return [this.name + ':'].concat(argumentStrings).join(' ');
+    },
+
     execute: function (scope) {
         const behavior = scope.read(this.name);
 
-        if(typeof behavior !== 'function') {
+        if (typeof behavior !== 'function') {
             throw new Error(`Cannot call ${this.name}, it is not a function.`);
         } else {
             const args = this.arguments.map(argument => argument.execute(scope));

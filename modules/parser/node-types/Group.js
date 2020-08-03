@@ -8,6 +8,10 @@ Group.prototype = {
         this.body = body;
     },
 
+    toString: function () {
+        return `(${this.body.toString()})`;
+    },
+
     execute: function (scope) {
         return this.body.execute(scope);
     }

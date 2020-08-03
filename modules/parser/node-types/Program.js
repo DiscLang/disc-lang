@@ -8,6 +8,12 @@ Program.prototype = {
         this.body.push(newNode);
     },
 
+    toString: function () {
+        const bodyStrings = this.body.map(line => '    ' + line.toString());
+
+        return ['begin'].concat(bodyStrings).concat('end').join('\n');
+    },
+
     execute: function (scope) {
         this.body.forEach(function(node) {
             node.execute(scope);

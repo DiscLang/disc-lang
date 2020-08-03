@@ -20,4 +20,12 @@ const initializedScope = EnvironmentTable.new();
 initializedScope.define('print', (...args) => console.log(...args));
 initializedScope.define('join', (...args) => args.join(''));
 
-loadSource(sourceFileName).execute(initializedScope);
+const parsedSource = loadSource(sourceFileName);
+
+console.log('\n********** Program source: **********\n');
+
+console.log(parsedSource.toString());
+
+console.log('\n********** Program output: **********\n');
+
+parsedSource.execute(initializedScope);

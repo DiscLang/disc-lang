@@ -10,6 +10,9 @@ BinaryExpression.prototype = {
     setRight: function (node) {
         this.right = node;
     },
+    toString: function () {
+        return `${this.left.toString()} ${this.operator} ${this.right.toString()}`
+    },
     execute: function (scope) {
         const left = this.left.execute(scope);
         const right = this.right.execute(scope);

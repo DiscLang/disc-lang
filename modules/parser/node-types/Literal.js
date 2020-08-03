@@ -17,6 +17,11 @@ function Literal(token) {
 }
 
 Literal.prototype = {
+    toString: function () {
+        return typeof this.value === 'string'
+            ? `"${this.value}"`
+            : this.value.toString();
+    },
     execute: function () {
         return this.value;
     }

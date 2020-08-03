@@ -12,6 +12,12 @@ function cut(tokens, count) {
     return tokens;
 }
 
+function getTokenString(tokenSet) {
+    return tokenSet
+        .map(token => token[0].token.toString())
+        .join(' ');
+}
+
 function parse(tokens) {
     const [body] = parseBlockBody(tokens.slice(1));
     return Program.new(body);
@@ -50,7 +56,7 @@ function getParsedGroupToken(parsedGroup) {
 
 function getParsedBinaryExpression(binaryExpression) {
     return {
-        type: 'BinaryExpression',
+        type: 'ParsedBinaryExpression',
         token: binaryExpression
     };
 }
@@ -66,8 +72,8 @@ const parsers = [
 ];
 
 function parseTokenSet(tokenSet) {
-    if(tokenSet.length === 0) {
-        return ;
+    if (tokenSet.length === 0) {
+        return;
     }
 
     const parser = parsers.find(parserPair => parserPair[0](tokenSet));
@@ -96,7 +102,7 @@ function parseTokenSet(tokenSet) {
 }
 
 function throwUnparseableError(tokenSet) {
-    throw new Error("Unable to interpret this program, failing line: " + tokenSet);
+    throw new Error("Unable to interpret this program, failing line: " + getTokenString(tokenSet));
 }
 
 function isVariableInitialization(tokenLine) {
@@ -112,7 +118,7 @@ function isFunctionCall(tokenSet) {
 }
 
 const literalTypes = ['Number', 'Boolean', 'String'];
-const literalParsedTypes = ['ParsedTokenSet', 'BinaryExpression'];
+const literalParsedTypes = ['ParsedTokenSet', 'ParsedBinaryExpression'];
 
 function isLiteral(tokenSet) {
     return tokenSet.length === 1
@@ -147,11 +153,35 @@ function isGroupClose(tokenSet) {
 function parseBinaryExpression(tokenSet) {
     const binaryExpression = BinaryExpression.new(tokenSet[1].token);
     binaryExpression.setLeft(parseTokenSet([tokenSet[0]]));
-    binaryExpression.setRight(parseTokenSet(cut(tokenSet, 2)));
 
-    const parsedBinaryExpressionToken = binaryExpression;
+    if (['*', '/'].includes(tokenSet[1].token)) {
+        let tokenToParse;
 
-    return parsedBinaryExpressionToken;
+        if (isLiteral([tokenSet[2]])) {
+            tokenToParse = tokenSet[2];
+            cut(tokenSet, 3);
+        } else if (isGroupOpen([tokenSet[2]])) {
+            parseGroup(cut(tokenSet, 2));
+
+            tokenToParse = tokenSet[0];
+
+            cut(tokenSet, 1);
+        } else {
+            throw new Error('Arithmetic expression contains an error: ', getTokenString(tokenSet));
+        }
+
+        binaryExpression.setRight(parseTokenSet([tokenToParse]));
+
+        const parsedBinaryExpression = getParsedBinaryExpression(binaryExpression);
+
+        tokenSet.unshift(parsedBinaryExpression);
+
+        return parseTokenSet(tokenSet);
+    } else {
+        binaryExpression.setRight(parseTokenSet(cut(tokenSet, 2)));
+        
+        return binaryExpression;
+    }
 }
 
 function parseGroup(tokenSet) {
@@ -160,7 +190,7 @@ function parseGroup(tokenSet) {
     const groupBody = parseTokenSet(cut(tokenSet, 1));
 
     if (!Boolean(groupBody) || Array.isArray(groupBody)) {
-        throw new Error(`Unparseable group in source: "${tokenSet.map(token => token.token).join(' ')}"`);
+        throw new Error(`Unparseable group in source: "${getTokenString(tokenSet)}"`);
     }
 
     newGroup.setBody(groupBody);

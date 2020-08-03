@@ -1,4 +1,5 @@
 begin
     let sum be 1 + 2
     let computedValue be 1 + (2 * 3)
+    let computeValue2 be 3 * 4 + 7 / 2 + ((5 - 2) / 7)
 end
