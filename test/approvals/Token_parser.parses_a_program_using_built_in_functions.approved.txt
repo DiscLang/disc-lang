@@ -74,8 +74,11 @@
                             "name": "random",
                             "arguments": [
                                 {
-                                    "type": "Literal",
-                                    "value": 0
+                                    "type": "Group",
+                                    "body": {
+                                        "type": "Literal",
+                                        "value": 0
+                                    }
                                 },
                                 {
                                     "type": "Literal",

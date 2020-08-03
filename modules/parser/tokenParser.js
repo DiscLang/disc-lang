@@ -5,6 +5,12 @@ const InitializationExpression = require('./node-types/InitializationExpression'
 const Literal = require('./node-types/Literal');
 const Program = require('./node-types/Program');
 
+function cut(tokens, count) {
+    tokens.splice(0, count);
+
+    return tokens;
+}
+
 function parse(tokens) {
     const [body] = parseBlockBody(tokens.slice(1));
     return Program.new(body);
@@ -25,13 +31,20 @@ function parseBlockBody(tokenLines) {
     ) {
         const tokenLine = tokenLines[index];
 
-        const parsedLine = parseTokenSet(tokenLine);
+        const parsedLine = parseTokenSet(tokenLine.slice(0));
         body.push(parsedLine);
 
         index++;
     }
 
     return [body, index];
+}
+
+function getParsedGroupToken(parsedGroup) {
+    return {
+        type: 'ParsedTokenSet',
+        token: parsedGroup
+    };
 }
 
 const parsers = [
@@ -46,12 +59,13 @@ function parseTokenSet(tokenSet) {
     const parser = parsers.find(parserPair => parserPair[0](tokenSet));
 
     if (tokenSet.length === 0 || isGroupClose(tokenSet)) {
+        cut(tokenSet, 1);
         return;
     } else if (Boolean(parser)) {
         return parser[1](tokenSet);
     } else if (tokenSet.length > 1 && tokenSet[0].type !== 'operator') {
         const firstParsedToken = parseTokenSet([tokenSet[0]]);
-        const parsedRemainingTokens = parseTokenSet(tokenSet.slice(1));
+        const parsedRemainingTokens = parseTokenSet(cut(tokenSet, 1));
         return Boolean(parsedRemainingTokens)
             ? [firstParsedToken].concat(parsedRemainingTokens)
             : firstParsedToken;
@@ -76,7 +90,7 @@ function isFunctionCall(tokenSet) {
         tokenSet[1].type === 'FunctionExecutionIndicator'
 }
 
-const literalTypes = ['Number', 'Boolean', 'String'];
+const literalTypes = ['Number', 'Boolean', 'String', 'ParsedTokenSet'];
 
 function isLiteral(tokenSet) {
     return tokenSet.length === 1
@@ -99,7 +113,7 @@ function isGroupClose(tokenSet) {
 function parseGroup(tokenSet) {
     const newGroup = Group.new();
 
-    const groupBody = parseTokenSet(tokenSet.slice(1));
+    const groupBody = parseTokenSet(cut(tokenSet, 1));
 
     if (!Boolean(groupBody) || Array.isArray(groupBody)) {
         throw new Error(`Unparseable group in source: "${tokenSet.map(token => token.token).join(' ')}"`);
@@ -107,19 +121,24 @@ function parseGroup(tokenSet) {
 
     newGroup.setBody(groupBody);
 
-    return newGroup;
+    const parsedGroupToken = getParsedGroupToken(newGroup);
+    tokenSet.unshift(parsedGroupToken);
+
+    return parseTokenSet(tokenSet);
 }
 
 function parseVariableInitialization(tokenLine) {
     const variableType = tokenLine[0].token;
     const identifier = Identifier.new(tokenLine[1].token);
-    const value = parseTokenSet(tokenLine.slice(3));
+    const value = parseTokenSet(cut(tokenLine, 3));
 
     return InitializationExpression.new(variableType, identifier, value);
 }
 
 function parseLiteral(tokenSet) {
-    return Literal.new(tokenSet[0]);
+    return tokenSet[0].type === 'ParsedTokenSet'
+        ? tokenSet[0].token
+        : Literal.new(tokenSet[0]);
 }
 
 function parseIdentifier(tokenSet) {
@@ -128,9 +147,8 @@ function parseIdentifier(tokenSet) {
 
 function parseFunctionCall(tokenSet) {
     const functionCall = FunctionCall.new(tokenSet[0].token);
-    const remainingTokens = tokenSet.slice(2);
 
-    const parsedArgs = parseTokenSet(remainingTokens);
+    const parsedArgs = parseTokenSet(cut(tokenSet, 2));
     const functionArgs = Array.isArray(parsedArgs) ? parsedArgs : [parsedArgs];
 
     functionCall.addArguments(functionArgs);
