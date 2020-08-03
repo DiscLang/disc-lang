@@ -17,7 +17,8 @@ function lexSource(sourceCode) {
 
     for (let i = 0; i < sourceLines.length; i++) {
         const currentLine = sourceLines[i];
-        const lexedLine = lexLine(currentLine);
+        const currentLineNumber = i + 1;
+        const lexedLine = lexLine(currentLine, currentLineNumber);
 
         if (lexedLine.length > 0) {
             sourceLineTokens.push(lexedLine);
@@ -54,26 +55,27 @@ function captureString(characterSet) {
     return [finalString, characterOffset];
 }
 
-function buildToken(tokenString) {
+function buildToken(tokenString, line) {
     return {
+        line: line,
         token: tokenString,
         type: grammar.getTokenType(tokenString)
     }
 }
 
 function getTokenCapture(tokens) {
-    return function pushToken(token) {
+    return function pushToken(token, line) {
         if (token !== '') {
             const capturedToken = token[0] === stringBeginIndicator
                 ? token
                 : token.toLowerCase();
 
-            tokens.push(buildToken(capturedToken));
+            tokens.push(buildToken(capturedToken, line));
         }
     }
 }
 
-function lexLine(sourceLine) {
+function lexLine(sourceLine, currentLineNumber) {
     const sourceChars = sourceLine.split('');
     const tokens = [];
 
@@ -84,7 +86,7 @@ function lexLine(sourceLine) {
     const resetCurrentToken = () => currentToken = '';
 
     const pushToken = () => {
-        captureToken(currentToken);
+        captureToken(currentToken, currentLineNumber);
         resetCurrentToken();
     }
 

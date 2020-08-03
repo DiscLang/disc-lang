@@ -31,4 +31,11 @@ describe('Token parser', function () {
 
         this.verify(JSON.stringify(parsedSource, null, 4));
     });
+
+    it('parses a program containing a loop', function () {
+        const tokenizedSource = sourceLoader.loadSource('loop-flow-control');
+        const parsedSource = tokenParser.parse(tokenizedSource);
+
+        this.verify(JSON.stringify(parsedSource, null, 4));
+    });
 });

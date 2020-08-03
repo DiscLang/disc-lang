@@ -4,7 +4,9 @@ const Group = require('./node-types/Group');
 const Identifier = require('./node-types/Identifier');
 const InitializationExpression = require('./node-types/InitializationExpression');
 const Literal = require('./node-types/Literal');
+const Loop = require('./node-types/Loop');
 const Program = require('./node-types/Program');
+const UpdateExpression = require('./node-types/UpdateExpression');
 
 function cut(tokens, count) {
     tokens.splice(0, count);
@@ -14,7 +16,10 @@ function cut(tokens, count) {
 
 function getTokenString(tokenSet) {
     return tokenSet
-        .map(token => token[0].token.toString())
+        .map(token =>
+            Array.isArray(token)
+                ? token[0].token.toString()
+                : token.token.toString())
         .join(' ');
 }
 
@@ -23,22 +28,39 @@ function parse(tokens) {
     return Program.new(body);
 }
 
+function getNextTokenLine(tokenLines) {
+    return tokenLines.splice(0, 1)[0];
+}
+
 function parseBlockBody(tokenLines) {
     const body = [];
 
     while (
-        tokenLines[0][0].token !== 'end' 
+        tokenLines[0][0].token !== 'end'
         && tokenLines.length > 0
     ) {
-        const tokenLine = tokenLines[0];
+        const currentTokenLine = getNextTokenLine(tokenLines);
 
-        const parsedLine = parseTokenSet(tokenLine.slice(0));
+        let parsedLine;
+
+        if(currentTokenLine[0].token === 'loop' && currentTokenLine[1].token === 'while') {
+            const tokens = cut(currentTokenLine, 2);
+            const condition = parseTokenSet(tokens.slice(0));
+            const newLoop = Loop.new(condition);
+
+            const body = parseBlockBody(tokenLines);
+
+            newLoop.setBody(body);
+
+            parsedLine = newLoop;
+        } else {
+            parsedLine = parseTokenSet(currentTokenLine.slice(0));
+        }
+
         body.push(parsedLine);
-
-        cut(tokenLines, 1);
     }
 
-    if(tokenLines.length === 0) {
+    if (tokenLines.length === 0) {
         throw new Error('Incomplete program: an "end" declaration is missing.');
     }
 
@@ -68,6 +90,7 @@ const parsers = [
     [isGroupOpen, parseGroup],
     [isIdentifier, parseIdentifier],
     [isVariableInitialization, parseVariableInitialization],
+    [isVariableUpdate, parseVariableUpdate],
     [isFunctionCall, parseFunctionCall]
 ];
 
@@ -102,7 +125,9 @@ function parseTokenSet(tokenSet) {
 }
 
 function throwUnparseableError(tokenSet) {
-    throw new Error("Unable to interpret this program, failing line: " + getTokenString(tokenSet));
+    const line = Boolean(tokenSet[0].line) ? tokenSet[0].line : 'unknown line';
+
+    throw new Error(`Unable to interpret this program, an error exists at line ${line} near "${getTokenString(tokenSet)}"`);
 }
 
 function isVariableInitialization(tokenLine) {
@@ -111,10 +136,15 @@ function isVariableInitialization(tokenLine) {
             || (tokenLine[0].token === 'define' && tokenLine[2].token === 'as'));
 }
 
+function isVariableUpdate(tokenLine) {
+    return tokenLine.length > 3 &&
+        tokenLine[0].token === 'update' && tokenLine[2].token === 'to';
+}
+
 function isFunctionCall(tokenSet) {
     return tokenSet.length > 2 &&
         (tokenSet[0].type === 'Identifier' &&
-        tokenSet[1].type === 'FunctionExecutionIndicator')
+            tokenSet[1].type === 'FunctionExecutionIndicator')
         || (tokenSet[0].type === 'CallOperator' &&
             tokenSet[2].token === 'with')
 }
@@ -181,7 +211,7 @@ function parseBinaryExpression(tokenSet) {
         return parseTokenSet(tokenSet);
     } else {
         binaryExpression.setRight(parseTokenSet(cut(tokenSet, 2)));
-        
+
         return binaryExpression;
     }
 }
@@ -211,6 +241,13 @@ function parseVariableInitialization(tokenLine) {
     return InitializationExpression.new(variableType, identifier, value);
 }
 
+function parseVariableUpdate(tokenLine) {
+    const identifier = Identifier.new(tokenLine[1].token);
+    const value = parseTokenSet(cut(tokenLine, 3));
+
+    return UpdateExpression.new(identifier, value);
+}
+
 function parseLiteral(tokenSet) {
     return literalParsedTypes.includes(tokenSet[0].type)
         ? tokenSet[0].token
@@ -222,11 +259,11 @@ function parseIdentifier(tokenSet) {
 }
 
 function parseFunctionCall(tokenSet) {
-    if(tokenSet.length <= 2) {
+    if (tokenSet.length <= 2) {
         return;
     }
 
-    if(tokenSet[0].type === 'CallOperator') {
+    if (tokenSet[0].type === 'CallOperator') {
         cut(tokenSet, 1);
     }
 

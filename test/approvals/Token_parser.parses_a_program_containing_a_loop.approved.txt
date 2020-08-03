@@ -1,0 +1,68 @@
+{
+    "type": "Program",
+    "body": [
+        {
+            "type": "InitializationExpression",
+            "variableType": "let",
+            "identifier": {
+                "type": "Identifier",
+                "name": "counter"
+            },
+            "value": {
+                "type": "Literal",
+                "value": 1
+            }
+        },
+        {
+            "type": "Loop",
+            "condition": {
+                "type": "FunctionCall",
+                "name": "islessthan",
+                "arguments": [
+                    {
+                        "type": "Identifier",
+                        "name": "counter"
+                    },
+                    {
+                        "type": "Literal",
+                        "value": 5
+                    }
+                ]
+            },
+            "body": [
+                {
+                    "type": "FunctionCall",
+                    "name": "print",
+                    "arguments": [
+                        {
+                            "type": "Identifier",
+                            "name": "counter"
+                        }
+                    ]
+                },
+                {
+                    "type": "UpdateExpression",
+                    "identifier": {
+                        "type": "Identifier",
+                        "name": "counter"
+                    },
+                    "value": {
+                        "type": "Group",
+                        "body": {
+                            "type": "BinaryExpression",
+                            "operator": "+",
+                            "left": {
+                                "type": "Identifier",
+                                "name": "counter"
+                            },
+                            "right": {
+                                "type": "Literal",
+                                "value": 1
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

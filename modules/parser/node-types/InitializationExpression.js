@@ -1,7 +1,7 @@
 function InitializationExpression(variableType, identifier, value) {
     this.type = 'InitializationExpression';
 
-    this.variableType = variableType
+    this.variableType = variableType;
     this.identifier = identifier;
     this.value = value;
 }
