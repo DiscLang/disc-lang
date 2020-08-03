@@ -1,6 +1,8 @@
 const booleanOptions = ['true', 'false'];
+const transitoryOperators = ['be', 'as', 'to', 'with'];
 const openBlockDelimiter = 'begin';
 const closeBlockDelimiter = 'end';
+const callOperator = 'call';
 const subtractionToken = '-';
 
 const characterSet = {
@@ -30,7 +32,9 @@ const grammar = {
 
     'OpenBlockDelimiter': (value) => value.toLowerCase() === openBlockDelimiter,
     'CloseBlockDelimiter': (value) => value.toLowerCase() === closeBlockDelimiter,
-
+    'CallOperator': (value) => value.toLowerCase() === callOperator,
+    'TransitoryOperator': (value) => transitoryOperators.includes(value.toLowerCase()),
+    
     'Identifier': () => true,
 };
 

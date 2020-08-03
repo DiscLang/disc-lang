@@ -16,7 +16,7 @@
         },
         {
             "token": "be",
-            "type": "Identifier"
+            "type": "TransitoryOperator"
         },
         {
             "token": "1234",
@@ -34,7 +34,7 @@
         },
         {
             "token": "be",
-            "type": "Identifier"
+            "type": "TransitoryOperator"
         },
         {
             "token": "5",
@@ -84,7 +84,7 @@
         },
         {
             "token": "be",
-            "type": "Identifier"
+            "type": "TransitoryOperator"
         },
         {
             "token": "0",
@@ -124,7 +124,7 @@
         },
         {
             "token": "be",
-            "type": "Identifier"
+            "type": "TransitoryOperator"
         },
         {
             "token": "(",
@@ -190,7 +190,7 @@
         },
         {
             "token": "to",
-            "type": "Identifier"
+            "type": "TransitoryOperator"
         },
         {
             "token": "(",

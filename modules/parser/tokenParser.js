@@ -112,9 +112,11 @@ function isVariableInitialization(tokenLine) {
 }
 
 function isFunctionCall(tokenSet) {
-    return tokenSet.length > 2 &
-        tokenSet[0].type === 'Identifier' &&
-        tokenSet[1].type === 'FunctionExecutionIndicator'
+    return tokenSet.length > 2 &&
+        (tokenSet[0].type === 'Identifier' &&
+        tokenSet[1].type === 'FunctionExecutionIndicator')
+        || (tokenSet[0].type === 'CallOperator' &&
+            tokenSet[2].token === 'with')
 }
 
 const literalTypes = ['Number', 'Boolean', 'String'];
@@ -220,6 +222,14 @@ function parseIdentifier(tokenSet) {
 }
 
 function parseFunctionCall(tokenSet) {
+    if(tokenSet.length <= 2) {
+        return;
+    }
+
+    if(tokenSet[0].type === 'CallOperator') {
+        cut(tokenSet, 1);
+    }
+
     const functionCall = FunctionCall.new(tokenSet[0].token);
 
     const parsedArgs = parseTokenSet(cut(tokenSet, 2));
