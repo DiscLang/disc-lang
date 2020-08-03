@@ -1,3 +1,4 @@
+const BinaryExpression = require('./node-types/BinaryExpression');
 const FunctionCall = require('./node-types/FunctionCall');
 const Group = require('./node-types/Group');
 const Identifier = require('./node-types/Identifier');
@@ -47,7 +48,16 @@ function getParsedGroupToken(parsedGroup) {
     };
 }
 
+function getParsedBinaryExpression(binaryExpression) {
+    return {
+        type: 'BinaryExpression',
+        token: binaryExpression
+    };
+}
+
+
 const parsers = [
+    [isBinaryExpression, parseBinaryExpression],
     [isLiteral, parseLiteral],
     [isGroupOpen, parseGroup],
     [isIdentifier, parseIdentifier],
@@ -56,19 +66,30 @@ const parsers = [
 ];
 
 function parseTokenSet(tokenSet) {
+    if(tokenSet.length === 0) {
+        return ;
+    }
+
     const parser = parsers.find(parserPair => parserPair[0](tokenSet));
 
-    if (tokenSet.length === 0 || isGroupClose(tokenSet)) {
+    if (isGroupClose(tokenSet)) {
         cut(tokenSet, 1);
         return;
     } else if (Boolean(parser)) {
         return parser[1](tokenSet);
     } else if (tokenSet.length > 1 && tokenSet[0].type !== 'operator') {
         const firstParsedToken = parseTokenSet([tokenSet[0]]);
-        const parsedRemainingTokens = parseTokenSet(cut(tokenSet, 1));
-        return Boolean(parsedRemainingTokens)
-            ? [firstParsedToken].concat(parsedRemainingTokens)
-            : firstParsedToken;
+        cut(tokenSet, 1);
+
+        if (tokenSet[0].type === 'operator') {
+            return firstParsedToken;
+        } else {
+            const parsedRemainingTokens = parseTokenSet(tokenSet);
+            return Boolean(parsedRemainingTokens)
+                ? [firstParsedToken].concat(parsedRemainingTokens)
+                : firstParsedToken;
+        }
+
     } else {
         throwUnparseableError(tokenSet);
     }
@@ -90,16 +111,29 @@ function isFunctionCall(tokenSet) {
         tokenSet[1].type === 'FunctionExecutionIndicator'
 }
 
-const literalTypes = ['Number', 'Boolean', 'String', 'ParsedTokenSet'];
+const literalTypes = ['Number', 'Boolean', 'String'];
+const literalParsedTypes = ['ParsedTokenSet', 'BinaryExpression'];
 
 function isLiteral(tokenSet) {
     return tokenSet.length === 1
-        && literalTypes.includes(tokenSet[0].type);
+        && (literalTypes.includes(tokenSet[0].type)
+            || literalParsedTypes.includes(tokenSet[0].type));
 }
 
 function isIdentifier(tokenSet) {
     return tokenSet.length === 1
         && tokenSet[0].type === 'Identifier'
+}
+
+function isOperator(tokenSet) {
+    return tokenSet[0].type === 'Operator';
+}
+
+function isBinaryExpression(tokenSet) {
+    return tokenSet.length > 2
+        && (isLiteral([tokenSet[0]])
+            || isIdentifier([tokenSet[0]]))
+        && isOperator([tokenSet[1]]);
 }
 
 function isGroupOpen(tokenSet) {
@@ -108,6 +142,16 @@ function isGroupOpen(tokenSet) {
 
 function isGroupClose(tokenSet) {
     return tokenSet[0].type === 'CloseGroupDelimiter';
+}
+
+function parseBinaryExpression(tokenSet) {
+    const binaryExpression = BinaryExpression.new(tokenSet[1].token);
+    binaryExpression.setLeft(parseTokenSet([tokenSet[0]]));
+    binaryExpression.setRight(parseTokenSet(cut(tokenSet, 2)));
+
+    const parsedBinaryExpressionToken = binaryExpression;
+
+    return parsedBinaryExpressionToken;
 }
 
 function parseGroup(tokenSet) {
@@ -136,7 +180,7 @@ function parseVariableInitialization(tokenLine) {
 }
 
 function parseLiteral(tokenSet) {
-    return tokenSet[0].type === 'ParsedTokenSet'
+    return literalParsedTypes.includes(tokenSet[0].type)
         ? tokenSet[0].token
         : Literal.new(tokenSet[0]);
 }

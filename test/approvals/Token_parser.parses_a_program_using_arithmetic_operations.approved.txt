@@ -1,0 +1,56 @@
+{
+    "type": "Program",
+    "body": [
+        {
+            "type": "InitializationExpression",
+            "variableType": "let",
+            "identifier": {
+                "type": "Identifier",
+                "name": "sum"
+            },
+            "value": {
+                "type": "BinaryExpression",
+                "operator": "+",
+                "left": {
+                    "type": "Literal",
+                    "value": 1
+                },
+                "right": {
+                    "type": "Literal",
+                    "value": 2
+                }
+            }
+        },
+        {
+            "type": "InitializationExpression",
+            "variableType": "let",
+            "identifier": {
+                "type": "Identifier",
+                "name": "computedvalue"
+            },
+            "value": {
+                "type": "BinaryExpression",
+                "operator": "+",
+                "left": {
+                    "type": "Literal",
+                    "value": 1
+                },
+                "right": {
+                    "type": "Group",
+                    "body": {
+                        "type": "BinaryExpression",
+                        "operator": "*",
+                        "left": {
+                            "type": "Literal",
+                            "value": 2
+                        },
+                        "right": {
+                            "type": "Literal",
+                            "value": 3
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}

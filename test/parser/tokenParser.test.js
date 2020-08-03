@@ -24,4 +24,11 @@ describe('Token parser', function () {
 
         this.verify(JSON.stringify(parsedSource, null, 4));
     });
+
+    it('parses a program using arithmetic operations', function () {
+        const tokenizedSource = sourceLoader.loadSource('arithmetic-operations');
+        const parsedSource = tokenParser.parse(tokenizedSource);
+
+        this.verify(JSON.stringify(parsedSource, null, 4));
+    });
 });
