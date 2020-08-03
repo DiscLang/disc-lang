@@ -1,5 +1,6 @@
 const booleanOptions = ['true', 'false'];
-const transitoryOperators = ['be', 'as', 'to', 'with'];
+const transitionalOperators = ['be', 'as', 'to', 'with', 'while'];
+const controlOperators = ['loop', 'if', 'else'];
 const openBlockDelimiter = 'begin';
 const closeBlockDelimiter = 'end';
 const callOperator = 'call';
@@ -32,9 +33,11 @@ const grammar = {
 
     'OpenBlockDelimiter': (value) => value.toLowerCase() === openBlockDelimiter,
     'CloseBlockDelimiter': (value) => value.toLowerCase() === closeBlockDelimiter,
+    'TransitionalOperator': (value) => transitionalOperators.includes(value.toLowerCase()),
+
     'CallOperator': (value) => value.toLowerCase() === callOperator,
-    'TransitoryOperator': (value) => transitoryOperators.includes(value.toLowerCase()),
-    
+    'ControlOperator': (value) => controlOperators.includes(value.toLowerCase()),
+
     'Identifier': () => true,
 };
 

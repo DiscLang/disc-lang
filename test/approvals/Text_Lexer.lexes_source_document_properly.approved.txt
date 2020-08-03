@@ -16,7 +16,7 @@
         },
         {
             "token": "be",
-            "type": "TransitoryOperator"
+            "type": "TransitionalOperator"
         },
         {
             "token": "1234",
@@ -34,7 +34,7 @@
         },
         {
             "token": "be",
-            "type": "TransitoryOperator"
+            "type": "TransitionalOperator"
         },
         {
             "token": "5",
@@ -84,7 +84,7 @@
         },
         {
             "token": "be",
-            "type": "TransitoryOperator"
+            "type": "TransitionalOperator"
         },
         {
             "token": "0",
@@ -93,8 +93,12 @@
     ],
     [
         {
-            "token": "loopwhile",
-            "type": "Identifier"
+            "token": "loop",
+            "type": "ControlOperator"
+        },
+        {
+            "token": "while",
+            "type": "TransitionalOperator"
         },
         {
             "token": "islessthan",
@@ -124,7 +128,7 @@
         },
         {
             "token": "be",
-            "type": "TransitoryOperator"
+            "type": "TransitionalOperator"
         },
         {
             "token": "(",
@@ -190,7 +194,7 @@
         },
         {
             "token": "to",
-            "type": "TransitoryOperator"
+            "type": "TransitionalOperator"
         },
         {
             "token": "(",
@@ -217,16 +221,12 @@
         {
             "token": "end",
             "type": "CloseBlockDelimiter"
-        },
-        {
-            "token": "loopwhile",
-            "type": "Identifier"
         }
     ],
     [
         {
             "token": "if",
-            "type": "Identifier"
+            "type": "ControlOperator"
         },
         {
             "token": "isequal",
@@ -262,11 +262,11 @@
     [
         {
             "token": "else",
-            "type": "Identifier"
+            "type": "ControlOperator"
         },
         {
             "token": "if",
-            "type": "Identifier"
+            "type": "ControlOperator"
         },
         {
             "token": "false",
@@ -290,7 +290,7 @@
     [
         {
             "token": "else",
-            "type": "Identifier"
+            "type": "ControlOperator"
         }
     ],
     [
@@ -311,10 +311,6 @@
         {
             "token": "end",
             "type": "CloseBlockDelimiter"
-        },
-        {
-            "token": "if",
-            "type": "Identifier"
         }
     ],
     [
