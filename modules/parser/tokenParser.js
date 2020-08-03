@@ -27,8 +27,8 @@ function parseBlockBody(tokenLines) {
     const body = [];
 
     while (
-        tokenLines[0][0].token !== 'end' &&
-        tokenLines.length > 0
+        tokenLines[0][0].token !== 'end' 
+        && tokenLines.length > 0
     ) {
         const tokenLine = tokenLines[0];
 
@@ -36,6 +36,10 @@ function parseBlockBody(tokenLines) {
         body.push(parsedLine);
 
         cut(tokenLines, 1);
+    }
+
+    if(tokenLines.length === 0) {
+        throw new Error('Incomplete program, an "end" is missing.');
     }
 
     return body;
