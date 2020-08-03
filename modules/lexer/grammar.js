@@ -5,6 +5,7 @@ const openBlockDelimiter = 'begin';
 const closeBlockDelimiter = 'end';
 const callOperator = 'call';
 const subtractionToken = '-';
+const infixOperators = ['::', 'infix'];
 
 const characterSet = {
     operators: ['+', subtractionToken, '*', '/'],
@@ -25,6 +26,7 @@ const grammar = {
     'String': (value) => value[0] === characterSet.stringBeginIndicator
         && value[value.length - 1] === characterSet.stringEndIndicator,
 
+    'InfixOperator': (value) => infixOperators.includes(value),
     'Operator': (value) => characterSet.operators.includes(value),
     'FunctionExecutionIndicator': (value) => value === characterSet.functionExecutionIndicator,
 

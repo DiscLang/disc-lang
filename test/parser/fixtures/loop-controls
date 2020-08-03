@@ -1,0 +1,9 @@
+begin
+    let counter be 1
+
+    loop while isLessThan: counter 5
+        print: counter
+
+        update counter to (counter + 1)
+    end
+end

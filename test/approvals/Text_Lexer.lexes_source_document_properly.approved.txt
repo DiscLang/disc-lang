@@ -93,6 +93,24 @@
     ],
     [
         {
+            "token": "let",
+            "type": "Identifier"
+        },
+        {
+            "token": "negativenumber",
+            "type": "Identifier"
+        },
+        {
+            "token": "be",
+            "type": "TransitionalOperator"
+        },
+        {
+            "token": "-2",
+            "type": "Number"
+        }
+    ],
+    [
+        {
             "token": "loop",
             "type": "ControlOperator"
         },
@@ -101,20 +119,28 @@
             "type": "TransitionalOperator"
         },
         {
-            "token": "islessthan",
-            "type": "Identifier"
+            "token": "(",
+            "type": "OpenGroupDelimiter"
         },
         {
-            "token": ":",
-            "type": "FunctionExecutionIndicator"
+            "token": "infix",
+            "type": "InfixOperator"
         },
         {
             "token": "count",
             "type": "Identifier"
         },
         {
+            "token": "islessthan",
+            "type": "Identifier"
+        },
+        {
             "token": "5",
             "type": "Number"
+        },
+        {
+            "token": ")",
+            "type": "CloseGroupDelimiter"
         }
     ],
     [
@@ -229,15 +255,15 @@
             "type": "ControlOperator"
         },
         {
-            "token": "isequal",
-            "type": "Identifier"
-        },
-        {
-            "token": ":",
-            "type": "FunctionExecutionIndicator"
+            "token": "::",
+            "type": "InfixOperator"
         },
         {
             "token": "count",
+            "type": "Identifier"
+        },
+        {
+            "token": "isequalto",
             "type": "Identifier"
         },
         {

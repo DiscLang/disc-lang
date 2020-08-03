@@ -2,10 +2,11 @@ begin
     let testVar be 1234
     let result be 5 * (15 / 4) + 7
     let count be 0
+    let negativeNumber be -2
 
     # I am a comment. Don't interpret me!
     
-    loop while isLessThan: count 5
+    loop while (infix count isLessThan 5)
         let countString be (concat: "Current count is: " count)
 
         print: countString
@@ -14,7 +15,7 @@ begin
         update count to (count + 1)
     end
 
-    if isEqual: count 4
+    if :: count isEqualTo 4
         print: "testing"
     else if false
         print: "this is also not supposed to run"

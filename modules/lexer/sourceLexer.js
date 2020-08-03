@@ -95,6 +95,13 @@ function lexLine(sourceLine) {
 
         if (currentChar === commentCharacter) {
             break;
+        } else if (currentChar === ':' && sourceChars[i + 1] === ':') {
+            pushToken();
+
+            currentToken = '::';
+            i++;
+
+            pushToken();
         } else if (
             grammar.grammarTypes.isOperator(currentChar)
             || grammar.grammarTypes.isOpenGroupDelimiter(currentChar)
