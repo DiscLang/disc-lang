@@ -39,8 +39,10 @@ function parseBlockBody(tokenLines) {
     }
 
     if(tokenLines.length === 0) {
-        throw new Error('Incomplete program, an "end" is missing.');
+        throw new Error('Incomplete program: an "end" declaration is missing.');
     }
+
+    cut(tokenLines, 1);
 
     return body;
 }
