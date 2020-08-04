@@ -193,6 +193,7 @@ function isFunctionCall(tokenSet) {
             tokenSet[1].type === 'FunctionExecutionIndicator')
         || (tokenSet[0].type === 'CallOperator' &&
             tokenSet[2].token === 'with')
+        || (tokenSet[0].type === 'InfixOperator');
 }
 
 const literalTypes = ['Number', 'Boolean', 'String'];
@@ -311,6 +312,14 @@ function parseFunctionCall(tokenSet) {
 
     if (tokenSet[0].type === 'CallOperator') {
         cut(tokenSet, 1);
+    } else if (tokenSet[0].type === 'InfixOperator') {
+        const operator = tokenSet[0];
+        const functionName = tokenSet[2];
+        const firstArgument = tokenSet[1];
+
+        tokenSet[0] = functionName;
+        tokenSet[1] = operator;
+        tokenSet[2] = firstArgument;
     }
 
     const functionCall = FunctionCall.new(tokenSet[0].token);
