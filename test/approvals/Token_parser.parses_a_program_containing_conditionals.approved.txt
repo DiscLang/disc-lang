@@ -3,6 +3,7 @@
     "body": [
         {
             "type": "Conditional",
+            "blockType": "if",
             "condition": {
                 "type": "FunctionCall",
                 "name": "islessthan",
@@ -29,10 +30,11 @@
                     ]
                 }
             ],
-            "fail": []
+            "fail": null
         },
         {
             "type": "Conditional",
+            "blockType": "if",
             "condition": {
                 "type": "BinaryExpression",
                 "operator": "or",
@@ -73,49 +75,68 @@
                     ]
                 }
             ],
-            "fail": [
-                {
-                    "type": "Conditional",
-                    "condition": {
+            "fail": {
+                "type": "Conditional",
+                "blockType": "else if",
+                "condition": {
+                    "type": "FunctionCall",
+                    "name": "isgreaterthan",
+                    "arguments": [
+                        {
+                            "type": "Literal",
+                            "value": 6
+                        },
+                        {
+                            "type": "Literal",
+                            "value": 4
+                        }
+                    ]
+                },
+                "success": [
+                    {
                         "type": "FunctionCall",
-                        "name": "isgreaterthan",
+                        "name": "print",
                         "arguments": [
                             {
                                 "type": "Literal",
-                                "value": 6
-                            },
-                            {
-                                "type": "Literal",
-                                "value": 4
+                                "value": "This will always print"
                             }
                         ]
+                    }
+                ],
+                "fail": {
+                    "type": "Conditional",
+                    "blockType": "else",
+                    "condition": {
+                        "type": "Literal",
+                        "value": true
                     },
                     "success": [
                         {
-                            "type": "FunctionCall",
-                            "name": "print",
-                            "arguments": [
+                            "type": "Conditional",
+                            "blockType": "if",
+                            "condition": {
+                                "type": "Identifier",
+                                "name": "test1"
+                            },
+                            "success": [
                                 {
-                                    "type": "Literal",
-                                    "value": "This will always print"
+                                    "type": "FunctionCall",
+                                    "name": "print",
+                                    "arguments": [
+                                        {
+                                            "type": "Literal",
+                                            "value": "more testing"
+                                        }
+                                    ]
                                 }
-                            ]
+                            ],
+                            "fail": null
                         }
                     ],
-                    "fail": [
-                        {
-                            "type": "FunctionCall",
-                            "name": "print",
-                            "arguments": [
-                                {
-                                    "type": "Literal",
-                                    "value": "This will also never print"
-                                }
-                            ]
-                        }
-                    ]
+                    "fail": null
                 }
-            ]
+            }
         },
         {
             "type": "FunctionCall",

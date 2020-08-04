@@ -9,9 +9,10 @@ begin
     else if :: 6 isGreaterThan 4
         print: "This will always print"
     else
-        print: "This will also never print"
+        if test1
+            print: "more testing"
+        end 
     end
 
     print: "This line is to ensure the program does not exit early"
-
 end

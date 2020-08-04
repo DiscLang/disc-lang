@@ -64,35 +64,48 @@ function parseBlockBody(tokenLines) {
         if (currentTokenLine[0].token === 'if') {
             const tokens = cut(currentTokenLine, 1);
             const condition = parseTokenSet(tokens.slice(0));
-            const newConditional = Conditional.new(condition);
+            const newConditional = Conditional.new('if', condition);
 
             const success = parseBlockBody(tokenLines);
 
             newConditional.setSuccess(success);
 
-            const hasElse = tokenLines[0][0].token === 'else'
-            const elseIsTerminal = hasElse && tokenLines[0].length === 1;
+            let hasElse;
+            let elseIsTerminal;
 
-            if (hasElse) {
-                if (elseIsTerminal) {
-                    cut(tokenLines, 1);
-                    const fail = parseBlockBody(tokenLines);
+            do {
+                hasElse = tokenLines[0][0].token === 'else'
+                elseIsTerminal = hasElse && tokenLines[0].length === 1;
 
-                    newConditional.setFail(fail);
-                } else {
-                    cut(tokenLines[0], 1);
-                    const fail = parseBlockBody(tokenLines);
+                if (hasElse) {
+                    const conditionalType = elseIsTerminal
+                        ? 'else' : 'else if';
 
-                    newConditional.setFail(fail);
+                    let condition;
+
+                    if(elseIsTerminal) {
+                        condition = Literal.new({ type: 'Boolean', token: 'true' });
+                    } else {
+                        cut(tokenLines[0], 2);
+                        condition = parseTokenSet(tokenLines[0]);
+                    }
+                    const elseConditional = Conditional.new(
+                        conditionalType,
+                        condition);
+
+                    const success = parseBlockBody(cut(tokenLines, 1));
+
+                    elseConditional.setSuccess(success);
+                    newConditional.setFail(elseConditional);
                 }
-            }
+
+                if(elseIsTerminal) {
+                    break;
+                }
+
+            } while (hasElse)
 
             parsedLine = newConditional;
-
-            if(elseIsTerminal) {
-                body.push(parsedLine);
-                return body;
-            }
         } else if (currentTokenLine[0].token === 'else') {
             tokenLines.unshift(currentTokenLine);
 

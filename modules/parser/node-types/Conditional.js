@@ -1,8 +1,9 @@
-function Conditional(condition) {
+function Conditional(blockType, condition) {
     this.type = 'Conditional';
+    this.blockType = blockType;
     this.condition = condition;
     this.success = [];
-    this.fail = [];
+    this.fail = null;
 }
 
 Conditional.prototype = {
@@ -10,8 +11,12 @@ Conditional.prototype = {
         this.success = Array.isArray(body) ? body : [];
     },
 
-    setFail: function (body) {
-        this.fail = Array.isArray(body) ? body : [];
+    setFail: function (failConditional) {
+        if(this.fail === null) {
+            this.fail = failConditional;
+        } else {
+            this.fail.setFail(failConditional);
+        }
     },
 
     toString: function () {
@@ -37,8 +42,8 @@ Conditional.prototype = {
     }
 }
 
-Conditional.new = function (condition) {
-    return new Conditional(condition);
+Conditional.new = function (blockType, condition) {
+    return new Conditional(blockType, condition);
 };
 
 module.exports = Conditional;
