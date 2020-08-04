@@ -4,9 +4,9 @@ begin
         print: "This is a test"
     end
 
-    if true and false
+    if true and false or false and true
         print: "This will never print"
-    else if isGreaterThan: 6 4
+    else if :: 6 isGreaterThan 4
         print: "This will always print"
     else
         print: "This will also never print"
