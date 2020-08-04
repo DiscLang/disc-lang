@@ -27,7 +27,7 @@ const grammar = {
         && value[value.length - 1] === characterSet.stringEndIndicator,
 
     'InfixOperator': (value) => infixOperators.includes(value),
-    'Operator': (value) => characterSet.operators.includes(value),
+    'Operator': (value) => characterSet.operators.concat(['and', 'or']).includes(value),
     'FunctionExecutionIndicator': (value) => value === characterSet.functionExecutionIndicator,
 
     'OpenGroupDelimiter': (value) => value === characterSet.openGroupDelimiter,

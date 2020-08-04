@@ -1,4 +1,5 @@
 const BinaryExpression = require('./node-types/BinaryExpression');
+const Conditional = require('./node-types/Conditional');
 const FunctionCall = require('./node-types/FunctionCall');
 const Group = require('./node-types/Group');
 const Identifier = require('./node-types/Identifier');
@@ -32,27 +33,72 @@ function getNextTokenLine(tokenLines) {
     return tokenLines.splice(0, 1)[0];
 }
 
+function isLoop(tokenSet) {
+    return tokenSet[0].token === 'loop'
+        && tokenSet[1].token === 'while';
+}
+
+function parseLoop(currentTokenLine, tokenLines) {
+    const tokens = cut(currentTokenLine, 2);
+    const condition = parseTokenSet(tokens.slice(0));
+    const newLoop = Loop.new(condition);
+
+    const body = parseBlockBody(tokenLines);
+
+    newLoop.setBody(body);
+
+    return newLoop;
+}
+
 function parseBlockBody(tokenLines) {
     const body = [];
 
     while (
-        tokenLines[0][0].token !== 'end'
-        && tokenLines.length > 0
+        tokenLines.length > 0
+        && tokenLines[0][0].token !== 'end'
     ) {
         const currentTokenLine = getNextTokenLine(tokenLines);
 
         let parsedLine;
 
-        if(currentTokenLine[0].token === 'loop' && currentTokenLine[1].token === 'while') {
-            const tokens = cut(currentTokenLine, 2);
+        if (currentTokenLine[0].token === 'if') {
+            const tokens = cut(currentTokenLine, 1);
             const condition = parseTokenSet(tokens.slice(0));
-            const newLoop = Loop.new(condition);
+            const newConditional = Conditional.new(condition);
 
-            const body = parseBlockBody(tokenLines);
+            const success = parseBlockBody(tokenLines);
 
-            newLoop.setBody(body);
+            newConditional.setSuccess(success);
 
-            parsedLine = newLoop;
+            const hasElse = tokenLines[0][0].token === 'else'
+            const elseIsTerminal = hasElse && tokenLines[0].length === 1;
+
+            if (hasElse) {
+                if (elseIsTerminal) {
+                    cut(tokenLines, 1);
+                    const fail = parseBlockBody(tokenLines);
+
+                    newConditional.setFail(fail);
+                } else {
+                    cut(tokenLines[0], 1);
+                    const fail = parseBlockBody(tokenLines);
+
+                    newConditional.setFail(fail);
+                }
+            }
+
+            parsedLine = newConditional;
+
+            if(elseIsTerminal) {
+                body.push(parsedLine);
+                return body;
+            }
+        } else if (currentTokenLine[0].token === 'else') {
+            tokenLines.unshift(currentTokenLine);
+
+            return body;
+        } else if (isLoop(currentTokenLine)) {
+            parsedLine = parseLoop(currentTokenLine, tokenLines);
         } else {
             parsedLine = parseTokenSet(currentTokenLine.slice(0));
         }
@@ -186,7 +232,7 @@ function parseBinaryExpression(tokenSet) {
     const binaryExpression = BinaryExpression.new(tokenSet[1].token);
     binaryExpression.setLeft(parseTokenSet([tokenSet[0]]));
 
-    if (['*', '/'].includes(tokenSet[1].token)) {
+    if (['and', '*', '/'].includes(tokenSet[1].token)) {
         let tokenToParse;
 
         if (isLiteral([tokenSet[2]])) {

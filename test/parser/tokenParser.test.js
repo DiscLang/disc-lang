@@ -38,4 +38,11 @@ describe('Token parser', function () {
 
         this.verify(JSON.stringify(parsedSource, null, 4));
     });
+
+    it('parses a program containing conditionals', function () {
+        const tokenizedSource = sourceLoader.loadSource('conditionals');
+        const parsedSource = tokenParser.parse(tokenizedSource);
+
+        this.verify(JSON.stringify(parsedSource, null, 4));
+    });
 });
