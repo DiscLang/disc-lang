@@ -6,7 +6,7 @@ begin
 
     # I am a comment. Don't interpret me!
     
-    loop while (infix count isLessThan 5)
+    loop while (toInfix count isLessThan 5)
         let countString be (concat: "Current count is: " count)
 
         print: countString

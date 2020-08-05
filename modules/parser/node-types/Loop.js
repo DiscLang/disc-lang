@@ -1,3 +1,5 @@
+const indent = require('./utils/indent');
+
 function Loop(condition) {
     this.type = 'Loop';
     this.condition = condition;
@@ -11,7 +13,7 @@ Loop.prototype = {
 
     toString: function () {
         const loopStart = `loop while ${this.condition.toString()}`;
-        const bodyContent = this.body.map(line => '    ' + line.toString());
+        const bodyContent = this.body.map(line => indent('    ', line.toString()));
 
         return [loopStart].concat(bodyContent).concat(['end']).join('\n');
     },

@@ -1,7 +1,12 @@
 begin
-    let name be "Chris"
+    let promptMessage be "what is your name? "
+    let name be (prompt: promptMessage)
 
-    let greeting be (join: "Hi, " (name) "!")
+    loop while (:: name isEqualTo "")
+        update name to (prompt: promptMessage)
+    end
+
+    let greeting be join: "Hi, " (name) "!"
     let message be "Your programming language works!"
 
     print: join: greeting " " message

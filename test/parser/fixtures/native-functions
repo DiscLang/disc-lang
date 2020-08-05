@@ -2,5 +2,6 @@ begin
     print: "this is a test"
     let result be power: 3 2
     let result be floor: call random with 0 10
+    call test
     (print: (random: (0) 1))
 end

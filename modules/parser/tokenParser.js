@@ -83,7 +83,7 @@ function parseBlockBody(tokenLines) {
 
                     let condition;
 
-                    if(elseIsTerminal) {
+                    if (elseIsTerminal) {
                         condition = Literal.new({ type: 'Boolean', token: 'true' });
                     } else {
                         cut(tokenLines[0], 2);
@@ -99,7 +99,7 @@ function parseBlockBody(tokenLines) {
                     newConditional.setFail(elseConditional);
                 }
 
-                if(elseIsTerminal) {
+                if (elseIsTerminal) {
                     break;
                 }
 
@@ -204,8 +204,7 @@ function isFunctionCall(tokenSet) {
     return tokenSet.length > 2 &&
         (tokenSet[0].type === 'Identifier' &&
             tokenSet[1].type === 'FunctionExecutionIndicator')
-        || (tokenSet[0].type === 'CallOperator' &&
-            tokenSet[2].token === 'with')
+        || (tokenSet[0].type === 'CallOperator')
         || (tokenSet[0].type === 'InfixOperator');
 }
 
@@ -319,10 +318,6 @@ function parseIdentifier(tokenSet) {
 }
 
 function parseFunctionCall(tokenSet) {
-    if (tokenSet.length <= 2) {
-        return;
-    }
-
     if (tokenSet[0].type === 'CallOperator') {
         cut(tokenSet, 1);
     } else if (tokenSet[0].type === 'InfixOperator') {
@@ -338,7 +333,9 @@ function parseFunctionCall(tokenSet) {
     const functionCall = FunctionCall.new(tokenSet[0].token);
 
     const parsedArgs = parseTokenSet(cut(tokenSet, 2));
-    const functionArgs = Array.isArray(parsedArgs) ? parsedArgs : [parsedArgs];
+    const functionArgs = Array.isArray(parsedArgs)
+        ? parsedArgs
+        : [parsedArgs].filter(argument => Boolean(argument));
 
     functionCall.addArguments(functionArgs);
 

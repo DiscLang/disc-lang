@@ -5,7 +5,7 @@ const openBlockDelimiter = 'begin';
 const closeBlockDelimiter = 'end';
 const callOperator = 'call';
 const subtractionToken = '-';
-const infixOperators = ['::', 'infix'];
+const infixOperators = ['::', 'toInfix'];
 
 const characterSet = {
     operators: ['+', subtractionToken, '*', '/'],

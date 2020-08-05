@@ -1,3 +1,5 @@
+const indent = require('./utils/indent');
+
 function Conditional(blockType, condition) {
     this.type = 'Conditional';
     this.blockType = blockType;
@@ -20,11 +22,20 @@ Conditional.prototype = {
     },
 
     toString: function () {
-        // const loopStart = `loop while ${this.condition.toString()}`;
-        // const bodyContent = this.body.map(line => '    ' + line.toString());
+        const conditionStart = `${blockType} ${blockType !== 'else' ? this.condition.toString() : ''}`;
+        const successContent = this.success.map(line => indent('    ', line.toString()));
 
-        // return [loopStart].concat(bodyContent).concat(['end']).join('\n');
-        return '';
+        let finalContent = [conditionStart].concat(successContent);
+
+        if(this.fail !== null) {
+            finalContent.concat(this.fail.toString());
+        }
+
+        if(this.blockType === 'if') {
+            finalContent.concat('end');
+        }
+
+        return finalContent.join('\n');
     },
 
     execute: function (scope) {
@@ -34,10 +45,8 @@ Conditional.prototype = {
             for(let i = 0; i < this.success.length; i++) {
                 this.success[i].execute(localScope);
             }
-        } else {
-            for(let i = 0; i < this.fail.length; i++) {
-                this.fail[i].execute(localScope);
-            }
+        } else if(this.fail !== null) {
+            this.fail.execute(scope);
         }
     }
 }
