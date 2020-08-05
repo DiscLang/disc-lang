@@ -9,11 +9,11 @@ begin
         update usersName to prompt: promptMessage
     end
 
-    let greeting be join: "Hi, " (usersName) "!"
+    let greeting be join: "Hi, " usersName "!"
     let message be "Your programming language works!"
 
     print: join: greeting " " message
     print: ""
-    print: join: "I need a name, " (usersName) "."
+    print: join: "I need a name, " usersName "."
 
 end
