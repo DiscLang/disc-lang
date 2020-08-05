@@ -1,10 +1,10 @@
 {
-  "name": "web-basic",
+  "name": "disc-lang",
   "version": "0.1.0",
   "description": "Interactive programming language - computing for people",
   "main": "index.js",
   "scripts": {
-    "hello": "node ./ ./test/live-tests/hello-world",
+    "hello": "node ./ ./test/live-tests/hello-world.disc",
     "build": "node ./node_modules/browserify/bin/cmd.js -p tinyify ./web-index.js -o ./dist/index.js",
     "test": "node ./node_modules/mocha/bin/mocha ./test/**/*.test.js"
   },
