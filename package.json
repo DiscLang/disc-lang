@@ -4,8 +4,9 @@
   "description": "Interactive programming language - computing for people",
   "main": "index.js",
   "scripts": {
-    "test": "node ./node_modules/mocha/bin/mocha ./test/**/*.test.js",
-    "build": "node ./node_modules/browserify/bin/cmd.js -p tinyify ./web-index.js -o ./dist/index.js"
+    "hello": "node ./ ./test/live-tests/hello-world",
+    "build": "node ./node_modules/browserify/bin/cmd.js -p tinyify ./web-index.js -o ./dist/index.js",
+    "test": "node ./node_modules/mocha/bin/mocha ./test/**/*.test.js"
   },
   "author": "Chris Stead",
   "license": "MIT",

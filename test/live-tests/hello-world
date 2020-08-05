@@ -3,17 +3,17 @@ begin
     let emptyResponse be ""
     let promptMessage be "What is your name? "
 
-    let usersName be prompt: promptMessage
+    let enteredName be prompt: promptMessage
 
-    repeat while usersName isEqualTo emptyResponse
-        update usersName to prompt: promptMessage
+    repeat while enteredName isEqualTo emptyResponse
+        update enteredName to prompt: promptMessage
     end
 
-    let greeting be join: "Hi, " usersName "!"
+    let greeting be join: "Hi, " enteredName "!"
     let message be "Your programming language works!"
 
     print: join: greeting " " message
     print: ""
-    print: join: "I need a name, " usersName "."
+    print: join: "I need a name, " enteredName "."
 
 end
