@@ -4,12 +4,14 @@
   "description": "Interactive programming language - computing for people",
   "main": "index.js",
   "scripts": {
-    "test": "node ./node_modules/mocha/bin/mocha ./test/**/*.test.js"
+    "test": "node ./node_modules/mocha/bin/mocha ./test/**/*.test.js",
+    "build": "node ./node_modules/browserify/bin/cmd.js ./web-index.js -o ./dist/index.js"
   },
   "author": "Chris Stead",
   "license": "MIT",
   "devDependencies": {
     "approvals": "^3.0.5",
+    "browserify": "^16.5.2",
     "chai": "^4.2.0",
     "diff": "^4.0.2",
     "mocha": "^8.0.1"

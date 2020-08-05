@@ -61,17 +61,19 @@ Dictionary.prototype = {
 };
 
 function verifyNumberValues(operation, a, b) {
-    if(typeof a !== 'number' || typeof b !== 'number') {
+    if (typeof a !== 'number' || typeof b !== 'number') {
         throw new Error(`All values provided to ${operation} must be numbers; values received are: ${a} of type ${typeof a} and ${b} of type ${typeof b}`);
     }
 }
 
-module.exports = {
-    array: function (...args) {
-        return args;
-    },
+module.exports = function (promptSync) {
+    let finalApi = {};
 
-    append: function (valuesArray, value) {
+    finalApi.array = function (...args) {
+        return args;
+    };
+
+    finalApi.append = function (valuesArray, value) {
         if (!Array.isArray(values)) {
             throw new Error('Append can only add values to an array.');
         }
@@ -79,29 +81,29 @@ module.exports = {
         valuesArray.push(value);
 
         return valuesArray;
-    },
+    };
 
-    dictionary: function () {
+    finalApi.dictionary = function () {
         return new Dictionary();
-    },
+    };
 
-    hasKey: function (dictionary, key) {
+    finalApi.hasKey = function (dictionary, key) {
         if (!dictionary instanceof Dictionary) {
             throw new Error('Keys can only be accessed on a dictionary.');
         }
 
         return dictionary.hasKey(key);
-    },
+    };
 
-    keys: function (dictionary) {
+    finalApi.keys = function (dictionary) {
         if (!dictionary instanceof Dictionary) {
             throw new Error('Keys can only be accessed on a dictionary.');
         }
 
         return dictionary.keys();
-    },
+    };
 
-    read: function (valuesObject, key) {
+    finalApi.read = function (valuesObject, key) {
         if (valuesObject instanceof Dictionary) {
             const safeKey = key.toLowerCase();
             return valuesObject.read(safeKey);
@@ -114,9 +116,9 @@ module.exports = {
         } else {
             throw new Error('Read can only be used on dictionaries and arrays.');
         }
-    },
+    };
 
-    remove: function (valuesObject, key) {
+    finalApi.remove = function (valuesObject, key) {
         if (valuesObject instanceof Dictionary) {
             const safeKey = key.remove(key);
             return valuesObject.read(safeKey);
@@ -129,9 +131,9 @@ module.exports = {
         } else {
             throw new Error('Read can only be used on dictionaries and arrays.');
         }
-    },
+    };
 
-    set: function (dictionary, key, value) {
+    finalApi.set = function (dictionary, key, value) {
         if (!dictionary instanceof Dictionary) {
             throw new Error('Values may only be set on a dictionary.');
         }
@@ -139,69 +141,91 @@ module.exports = {
         dictionary[key.toLowerCase()] = value;
 
         return dictionary;
-    },
+    };
 
-    isNil: function (value) {
+    finalApi.isNil = function (value) {
         return value instanceof Nil;
-    },
+    };
 
     // User I/O
 
-    print: function (...args) {
-        if (typeof window === 'object') {
+    finalApi.print = function (...args) {
+        if (typeof window === 'object' && typeof window.print === 'function') {
             window.print(...args);
         } else {
             console.log(...args);
         }
-    },
+    };
 
-    prompt: function (message) {
+    finalApi.prompt = function (message) {
         if (typeof window === 'object') {
             prompt(message);
         } else {
-            const prompt = require('prompt-sync')()
+            const prompt = promptSync()
 
             return prompt(message).trim();
         }
-    },
+    };
 
     // Strings.
 
-    join: function (...args) {
+    finalApi.join = function (...args) {
         return args.join('');
-    },
+    };
+
+    finalApi.toLowerCase = function (value) {
+        return value.toLowerCase();
+    };
+
+    finalApi.toUpperCase = function (value) {
+        return value.toUpperCase();
+    };
+
+    finalApi.toArray = function (value, delimiter = '') {
+        return value.split(delimiter);
+    }
+
+    // Logic.
+
+    finalApi.not = function (value) {
+        if(typeof value !== 'boolean') {
+            throw new Error(`Cannot apply not function to non-boolean values. Got value ${value} of type ${typeof value}`);
+        }
+
+        return !value;
+    }
 
     // Math.
 
-    isLessThan: function (a, b) {
+    finalApi.isLessThan = function (a, b) {
         verifyNumberValues('isLessThan', a, b);
 
         return a < b;
-    },
+    };
 
-    isGreaterThan: function (a, b) {
+    finalApi.isGreaterThan = function (a, b) {
         verifyNumberValues('isGreaterThan', a, b);
 
         return a > b;
-    },
+    };
 
-    isLessOrEqualTo: function (a, b) {
+    finalApi.isLessOrEqualTo = function (a, b) {
         verifyNumberValues('isLessOrEqualTo', a, b);
 
         return !(a > b);
-    },
+    };
 
-    isGreaterOrEqualTo: function (a, b) {
+    finalApi.isGreaterOrEqualTo = function (a, b) {
         verifyNumberValues('isGreaterOrEqualTo', a, b);
 
         return !(a < b);
-    },
+    };
 
-    isEqualTo: function (a, b) {
+    finalApi.isEqualTo = function (a, b) {
         return a === b;
-    },
+    };
 
-    random: function (min = 0, max = 1) {
+    finalApi.random = function (min = 0, max = 1) {
         verifyNumberValues('random', min, max);
 
         const safeMax = min >= max ? min + Math.abs(max) : max;
@@ -209,17 +233,19 @@ module.exports = {
         const randomNumber = Math.random() * numberDiff;
 
         return randomNumber + min;
-    },
+    };
 
-    absoluteValue: function (value) {
+    finalApi.absoluteValue = function (value) {
         return Math.abs(value);
-    },
+    };
 
-    floor: function (value) {
+    finalApi.floor = function (value) {
         return Math.floor(value);
-    },
+    };
 
-    ceiling: function (value) {
+    finalApi.ceiling = function (value) {
         return Math.ceil(value);
-    }
+    };
+
+    return finalApi;
 };
