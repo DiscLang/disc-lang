@@ -185,6 +185,14 @@ module.exports = function (promptSync) {
         return value.split(delimiter);
     }
 
+    finalApi.getCharacterAt = function (value, index) {
+        return value[index - 1];
+    }
+
+    finalApi.lengthOf = function (value) {
+        return value.length;
+    }
+
     // Logic.
 
     finalApi.not = function (value) {
@@ -246,6 +254,48 @@ module.exports = function (promptSync) {
     finalApi.ceiling = function (value) {
         return Math.ceil(value);
     };
+
+    finalApi.squareRoot = function (value) {
+        return Math.sqrt(value);
+    }
+
+    finalApi.power = function (value, exponent) {
+        verifyNumberValues('power', value, exponent);
+
+        return Math.pow(value, exponent);
+    }
+
+    finalApi.maximum = function (a, b) {
+        verifyNumberValues('maximum', a, b);
+
+        return a > b ? a : b;
+    }
+
+    finalApi.minimum = function (a, b) {
+        verifyNumberValues('minimum', a, b);
+
+        return a < b ? a : b;
+    }
+
+    finalApi.remainder = function(a, b) {
+        verifyNumberValues('modulus', a, b);
+
+        return a % b;
+    }
+
+    finalApi.round = function (a, b) {
+        verifyNumberValues('round', a, b);
+
+        const magnitude = Math.pow(10, b);
+
+        return Math.round(a * magnitude) / magnitude;
+    }
+
+    finalApi.log = function (value, base = Math.E) {
+        verifyNumberValues('log', value, base);
+
+        return Math.log(value)/Math.log(base);
+    }
 
     return finalApi;
 };
