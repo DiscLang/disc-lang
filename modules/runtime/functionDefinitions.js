@@ -129,7 +129,7 @@ module.exports = function (promptSync) {
 
             return valuesObject;
         } else {
-            throw new Error('Read can only be used on dictionaries and arrays.');
+            throw new Error('Remove can only be used on dictionaries and arrays.');
         }
     };
 
@@ -185,7 +185,10 @@ module.exports = function (promptSync) {
         return value.split(delimiter);
     }
 
-    finalApi.getCharacterAt = function (value, index) {
+    finalApi.getCharacterAtIndex = function (value, index) {
+        if(typeof value !== 'string') {
+            throw new Error(`Cannot read characters from a non-string value. Got ${value} of type ${typeof value}.`);
+        }
         return value[index - 1];
     }
 
