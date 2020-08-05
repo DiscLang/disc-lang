@@ -15,6 +15,24 @@ const logicalOperations = {
     'or': (a, b) => a || b
 };
 
+function numericOnly(name, comparison) {
+    return function(a, b) {
+        if(typeof a !== 'number' || typeof b !== 'number') {
+            throw new Error(`Cannot compare non-number values with ${name} operator.`);
+        }
+
+        return comparison(a, b);
+    }
+}
+
+const comparisonOperations = {
+    'isgreaterghan': numericOnly('isGreaterThan', (a, b) => a > b), 
+    'islessthan': numericOnly('isLessThan', (a, b) => a < b), 
+    'isgreaterorequalto': numericOnly('isGreaterOrEqualTo', (a, b) => !(a < b)), 
+    'islessorequalto': numericOnly('isLessOrEqualTo', (a, b) => !(a > b)),
+    'isequalto': (a, b) => a === b
+};
+
 function performMathOperation (operator, a, b) {
     if(typeof a !== 'number' || typeof b !== 'number') {
         throw new Error(`Arithmetic operations can only be run on numbers. Received ${a} of type ${typeof a} && ${b} of type ${typeof b}.`);
@@ -23,9 +41,12 @@ function performMathOperation (operator, a, b) {
     return mathOperations[operator](a, b);
 }
 
+function performComparisonOperation (operator, a, b) {
+    return comparisonOperations[operator](a, b);
+}
+
 function performLogicalOperation(operator, a, b) {
     if(typeof a !== 'boolean' || typeof b !== 'boolean') {
-        throw new Error(`Logical operations can only be run on boolean values. Received ${a} of type ${typeof a} && ${b} of type ${typeof b}.`);
     }
 
     return logicalOperations[operator](a, b);
@@ -46,9 +67,11 @@ BinaryExpression.prototype = {
         const right = this.right.execute(scope);
 
         if(Object.keys(mathOperations).includes(this.operator)) {
-            performMathOperation(this.operator, left, right);
-        } else {
-            performLogicalOperation(this.operator, left, right);
+            return performMathOperation(this.operator, left, right);
+        } else if (Object.keys(comparisonOperations).includes(this.operator)) {
+            return performComparisonOperation(this.operator, left, right);
+        }else {
+            return performLogicalOperation(this.operator, left, right);
         }
     }
 }

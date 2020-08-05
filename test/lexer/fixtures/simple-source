@@ -6,7 +6,7 @@ begin
 
     # I am a comment. Don't interpret me!
     
-    loop while (toInfix count isLessThan 5)
+    loop while count isLessThan 5
         let countString be (concat: "Current count is: " count)
 
         print: countString
@@ -15,7 +15,7 @@ begin
         update count to (count + 1)
     end
 
-    if :: count isEqualTo 4
+    if count isEqualTo 4
         print: "testing"
     else if false
         print: "this is also not supposed to run"

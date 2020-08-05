@@ -1,7 +1,7 @@
 begin
     let counter be 1
 
-    loop while isLessThan: counter 5
+    loop while counter isLessThan 5
         print: counter
 
         update counter to (counter + 1)

@@ -56,6 +56,10 @@ EnvironmentTable.prototype = {
 
     new: function () {
         return EnvironmentTable.new(this);
+    },
+
+    getIdentifiers: function () {
+        return Object.keys(this.identifiers);
     }
 };
 

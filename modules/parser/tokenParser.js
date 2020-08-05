@@ -34,7 +34,7 @@ function getNextTokenLine(tokenLines) {
 }
 
 function isLoop(tokenSet) {
-    return tokenSet[0].token === 'loop'
+    return (tokenSet[0].token === 'loop' || tokenSet[0].token === 'repeat')
         && tokenSet[1].token === 'while';
 }
 

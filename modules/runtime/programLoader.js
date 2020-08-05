@@ -5,9 +5,10 @@ const parser = require('../parser/tokenParser');
 
 function prepScope(promptSync) {
     const programScope = EnvironmentTable.new();
+    const functionApi = functionDefinitions(promptSync);
 
-    Object.keys(functionDefinitions(promptSync)).forEach(function(key){
-        programScope.define(key.toLowerCase(), functionDefinitions[key]);
+    Object.keys(functionApi).forEach(function(key){
+        programScope.define(key.toLowerCase(), functionApi[key]);
     });
 
     return programScope;

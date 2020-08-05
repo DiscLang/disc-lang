@@ -1,6 +1,6 @@
 const booleanOptions = ['true', 'false'];
 const transitionalOperators = ['be', 'as', 'to', 'with', 'while'];
-const controlOperators = ['loop', 'if', 'else'];
+const controlOperators = ['loop', 'repeat', 'if', 'else'];
 const openBlockDelimiter = 'begin';
 const closeBlockDelimiter = 'end';
 const callOperator = 'call';
@@ -20,6 +20,14 @@ const characterSet = {
     subtractionToken: subtractionToken
 };
 
+const comparisonOperators = [
+    'isGreaterThan',
+    'isLessThan',
+    'isGreaterOrEqualTo',
+    'isLessOrEqualTo',
+    'isEqualTo']
+    .map(value => value.toLowerCase());
+
 const grammar = {
     'Number': (value) => /^\-?[0-9]+(\.[0-9]+)?$/.test(value),
     'Boolean': (value) => booleanOptions.includes(value.toLowerCase()),
@@ -27,7 +35,9 @@ const grammar = {
         && value[value.length - 1] === characterSet.stringEndIndicator,
 
     'InfixOperator': (value) => infixOperators.includes(value),
-    'Operator': (value) => characterSet.operators.concat(['and', 'or']).includes(value),
+    'Operator': (value) => characterSet.operators
+        .concat(['and', 'or'])
+        .concat(comparisonOperators).includes(value),
     'FunctionExecutionIndicator': (value) => value === characterSet.functionExecutionIndicator,
 
     'OpenGroupDelimiter': (value) => value === characterSet.openGroupDelimiter,

@@ -1,12 +1,12 @@
 begin
 
-    if :: 5 isLessThan 6
+    if 5 isLessThan 6
         print: "This is a test"
     end
 
     if true and false or false and true
         print: "This will never print"
-    else if :: 6 isGreaterThan 4
+    else if 6 isGreaterThan 4
         print: "This will always print"
     else
         if test1

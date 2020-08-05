@@ -147,33 +147,18 @@
         },
         {
             "line": 9,
-            "token": "(",
-            "type": "OpenGroupDelimiter"
-        },
-        {
-            "line": 9,
-            "token": "toinfix",
-            "type": "Identifier"
-        },
-        {
-            "line": 9,
             "token": "count",
             "type": "Identifier"
         },
         {
             "line": 9,
             "token": "islessthan",
-            "type": "Identifier"
+            "type": "Operator"
         },
         {
             "line": 9,
             "token": "5",
             "type": "Number"
-        },
-        {
-            "line": 9,
-            "token": ")",
-            "type": "CloseGroupDelimiter"
         }
     ],
     [
@@ -314,18 +299,13 @@
         },
         {
             "line": 18,
-            "token": "::",
-            "type": "InfixOperator"
-        },
-        {
-            "line": 18,
             "token": "count",
             "type": "Identifier"
         },
         {
             "line": 18,
             "token": "isequalto",
-            "type": "Identifier"
+            "type": "Operator"
         },
         {
             "line": 18,

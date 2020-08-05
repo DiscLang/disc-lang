@@ -200,41 +200,13 @@ module.exports = function (promptSync) {
 
     finalApi.not = function (value) {
         if(typeof value !== 'boolean') {
-            throw new Error(`Cannot apply not function to non-boolean values. Got value ${value} of type ${typeof value}`);
+            throw new Error(`Cannot apply 'not' function to non-boolean values. Got value ${value} of type ${typeof value}`);
         }
 
         return !value;
     }
 
     // Math.
-
-    finalApi.isLessThan = function (a, b) {
-        verifyNumberValues('isLessThan', a, b);
-
-        return a < b;
-    };
-
-    finalApi.isGreaterThan = function (a, b) {
-        verifyNumberValues('isGreaterThan', a, b);
-
-        return a > b;
-    };
-
-    finalApi.isLessOrEqualTo = function (a, b) {
-        verifyNumberValues('isLessOrEqualTo', a, b);
-
-        return !(a > b);
-    };
-
-    finalApi.isGreaterOrEqualTo = function (a, b) {
-        verifyNumberValues('isGreaterOrEqualTo', a, b);
-
-        return !(a < b);
-    };
-
-    finalApi.isEqualTo = function (a, b) {
-        return a === b;
-    };
 
     finalApi.random = function (min = 0, max = 1) {
         verifyNumberValues('random', min, max);

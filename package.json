@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node ./node_modules/mocha/bin/mocha ./test/**/*.test.js",
-    "build": "node ./node_modules/browserify/bin/cmd.js ./web-index.js -o ./dist/index.js"
+    "build": "node ./node_modules/browserify/bin/cmd.js -p tinyify ./web-index.js -o ./dist/index.js"
   },
   "author": "Chris Stead",
   "license": "MIT",
@@ -14,7 +14,8 @@
     "browserify": "^16.5.2",
     "chai": "^4.2.0",
     "diff": "^4.0.2",
-    "mocha": "^8.0.1"
+    "mocha": "^8.0.1",
+    "tinyify": "^3.0.0"
   },
   "dependencies": {
     "prompt-sync": "^4.2.0"
