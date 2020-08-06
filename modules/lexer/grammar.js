@@ -16,7 +16,7 @@ const characterSet = {
     stringEndIndicator: '"',
     stringEscapeCharacter: '\\',
     commentCharacter: '#',
-    whitespaceCharacter: ' ',
+    whitespaceCharacter: '\s',
     subtractionToken: subtractionToken
 };
 

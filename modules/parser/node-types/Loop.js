@@ -22,8 +22,10 @@ Loop.prototype = {
         const localScope = scope.new();
 
         while(this.condition.execute(localScope)) {
+            const runScope = localScope.new();
+
             for(let i = 0; i < this.body.length; i++) {
-                this.body[i].execute(localScope);
+                this.body[i].execute(runScope);
             }
         }
     }

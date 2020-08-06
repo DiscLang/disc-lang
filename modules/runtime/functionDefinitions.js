@@ -11,7 +11,7 @@ function getNil() {
 }
 
 function Dictionary() {
-    this.map = {};
+    this.dictionary = {};
 }
 
 Dictionary.prototype = {
@@ -23,42 +23,58 @@ Dictionary.prototype = {
     },
 
     keys: function () {
-        return Object.keys(this.map);
+        return Object.keys(this.dictionary);
     },
 
     hasKey: function (key) {
         const safeKey = this.getSafeKey(key);
 
-        return typeof this.map[safeKey] !== 'undefined';
+        return typeof this.dictionary[safeKey] !== 'undefined';
     },
 
     read: function (key) {
         const safeKey = this.getSafeKey(key);
 
-        return typeof this.map[safeKey] !== 'undefined'
-            ? this.map[safeKey]
+        return typeof this.dictionary[safeKey] !== 'undefined'
+            ? this.dictionary[safeKey]
             : getNil();
     },
 
     remove: function (key) {
         const safeKey = this.getSafeKey(key);
 
-        this.map[safeKey] = undefined;
-        delete this.map[safeKey];
+        this.dictionary[safeKey] = undefined;
+        delete this.dictionary[safeKey];
     },
 
     set: function (key, value) {
         const safeKey = this.getSafeKey(key);
 
-        this.map[safeKey, value];
+        this.dictionary[safeKey] = value;
 
         return this;
     },
 
     toString: function () {
-        return JSON.stringify(this.map);
+        let outputLines = Object
+            .keys(this.dictionary)
+            .map(key => {
+                value = typeof this.dictionary[key] === 'string'
+                    ? `"${this.dictionary[key]}"`
+                    : this.dictionary[key].toString();
+
+                return value.split('\n').length === 1
+                    ? indent(`${key}: ${value}`)
+                    : indent(`${key}: \n${indent(value)}`);
+            });
+        return ['Dictionary {'].concat(outputLines).concat(['}']).join('\n');
     }
 };
+
+function indent(value) {
+    const lines = value.split('\n');
+    return lines.map(line => '    ' + line).join('\n');
+}
 
 function verifyNumberValues(operation, a, b) {
     if (typeof a !== 'number' || typeof b !== 'number') {
@@ -69,12 +85,12 @@ function verifyNumberValues(operation, a, b) {
 module.exports = function (promptSync) {
     let finalApi = {};
 
-    finalApi.array = function (...args) {
+    finalApi.newArray = function (...args) {
         return args;
     };
 
-    finalApi.append = function (valuesArray, value) {
-        if (!Array.isArray(values)) {
+    finalApi.appendTo = function (valuesArray, value) {
+        if (!Array.isArray(valuesArray)) {
             throw new Error('Append can only add values to an array.');
         }
 
@@ -83,7 +99,7 @@ module.exports = function (promptSync) {
         return valuesArray;
     };
 
-    finalApi.dictionary = function () {
+    finalApi.newDictionary = function () {
         return new Dictionary();
     };
 
@@ -95,7 +111,7 @@ module.exports = function (promptSync) {
         return dictionary.hasKey(key);
     };
 
-    finalApi.keys = function (dictionary) {
+    finalApi.getKeysFrom = function (dictionary) {
         if (!dictionary instanceof Dictionary) {
             throw new Error('Keys can only be accessed on a dictionary.');
         }
@@ -103,22 +119,22 @@ module.exports = function (promptSync) {
         return dictionary.keys();
     };
 
-    finalApi.read = function (valuesObject, key) {
+    finalApi.readFrom = function (valuesObject, key) {
         if (valuesObject instanceof Dictionary) {
             const safeKey = key.toLowerCase();
             return valuesObject.read(safeKey);
         } else if (Array.isArray(valuesObject)) {
-            const safeKey = parseInt(key);
+            const safeKey = parseInt(key) - 1;
 
             return typeof valuesObject[safeKey] !== 'undefined'
-                ? valuesObject[key]
+                ? valuesObject[safeKey]
                 : getNil();
         } else {
             throw new Error('Read can only be used on dictionaries and arrays.');
         }
     };
 
-    finalApi.remove = function (valuesObject, key) {
+    finalApi.removeFrom = function (valuesObject, key) {
         if (valuesObject instanceof Dictionary) {
             const safeKey = key.remove(key);
             return valuesObject.read(safeKey);
@@ -133,12 +149,12 @@ module.exports = function (promptSync) {
         }
     };
 
-    finalApi.set = function (dictionary, key, value) {
+    finalApi.setOn = function (dictionary, key, value) {
         if (!dictionary instanceof Dictionary) {
             throw new Error('Values may only be set on a dictionary.');
         }
 
-        dictionary[key.toLowerCase()] = value;
+        dictionary.set(key.toLowerCase(), value);
 
         return dictionary;
     };
@@ -147,19 +163,29 @@ module.exports = function (promptSync) {
         return value instanceof Nil;
     };
 
+    finalApi.Nil = function () {
+        return getNil();
+    }
+
     // User I/O
 
     finalApi.print = function (...args) {
-        if (typeof window === 'object' && typeof window.print === 'function') {
-            window.print(...args);
-        } else {
-            console.log(...args);
-        }
+        args.forEach(function (value) {
+            if (typeof window === 'object' && typeof window.print === 'function') {
+                window.print(value);
+            } else {
+                console.log(value);
+            }    
+        });
     };
 
     finalApi.prompt = function (message) {
         if (typeof window === 'object') {
-            prompt(message);
+            const response = prompt(message);
+
+            return response === null
+                ? ''
+                : response.trim();
         } else {
             const prompt = promptSync()
 

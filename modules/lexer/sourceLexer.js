@@ -29,7 +29,7 @@ function lexSource(sourceCode) {
 }
 
 function isWhitespace(character) {
-    return character === whitespaceCharacter;
+    return /[\s\t]/.test(character);
 }
 
 function captureString(characterSet) {

@@ -248,7 +248,7 @@ function parseBinaryExpression(tokenSet) {
     if (['and', '*', '/'].includes(tokenSet[1].token)) {
         let tokenToParse;
 
-        if (isLiteral([tokenSet[2]])) {
+        if (isLiteral([tokenSet[2]]) || isIdentifier([tokenSet[2]])) {
             tokenToParse = tokenSet[2];
             cut(tokenSet, 3);
         } else if (isGroupOpen([tokenSet[2]])) {

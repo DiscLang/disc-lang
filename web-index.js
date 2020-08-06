@@ -1,5 +1,5 @@
 const programLoader = require('./modules/runtime/programLoader');
 
-module.exports = {
-    loadAndRunProgram: programLoader.loadAndRun
+if(typeof window === 'object') {
+    window.loadAndRunProgram = programLoader.loadAndRun;
 }
