@@ -43,10 +43,10 @@ function isFunctionDeclaration(tokenLine) {
 
 function parseFunctionDeclaration(currentTokenLine, tokenLines) {
     const tokens = cut(currentTokenLine, 2);
-    const name = parseIdentifier(tokens);
+    const name = parseIdentifier(currentTokenLine);
     const parameters = [];
 
-    if (tokens[1] === 'withparameters' && tokens.length > 2) {
+    if (tokens.length > 2 && tokens[1].token === 'withparameters') {
         cut(tokens, 2)
             .forEach(function (token) {
                 parameters.push(parseIdentifier([token]));
@@ -56,9 +56,6 @@ function parseFunctionDeclaration(currentTokenLine, tokenLines) {
     const newFunction = FunctionDeclaration.new(name, parameters);
 
     const body = parseBlockBody(tokenLines);
-
-    console.log(tokenLines);
-    console.log(body);
 
     newFunction.setBody(body);
 

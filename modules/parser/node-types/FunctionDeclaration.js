@@ -9,14 +9,14 @@ function FunctionDeclaration(name, parameters) {
 }
 
 FunctionDeclaration.prototype = {
-    setBody: function(body) {
+    setBody: function (body) {
         this.body = body;
     },
 
     toString: function () {
         let functionStart = `declare function ${this.name}`;
 
-        if(this.parameters.length > 0) {
+        if (this.parameters.length > 0) {
             const parameterString = this.parameters.map(parameter => parameter.toString()).join(' ');
             functionStart += ' withparameters ' + parameterString;
         }
@@ -26,17 +26,18 @@ FunctionDeclaration.prototype = {
         return [functionStart].concat(bodyContent).concat(['end']).join('\n');
     },
 
-    execute: function (scope) {
+    execute: async function (scope) {
         const newFunction = async (...args) => {
-            if(args.length != this.parameters.length) {
-                throw new Error(`Function '${this.name}' takes ${this.parameters.length} arguments, but received ${this.args.length}.`);
+            
+            if (args.length !== this.parameters.length) {
+                throw new Error(`Function '${this.name}' takes ${this.parameters.length} arguments, but received ${args.length}.`);
             }
-
+            
             const localScope = scope.new();
 
             for (let i = 0; i < this.parameters.length; i++) {
                 const parameterName = this.parameters[i].toString();
-                
+
                 localScope.initialize(parameterName, args[i]);
             }
 
@@ -44,7 +45,7 @@ FunctionDeclaration.prototype = {
 
             for (let i = 0; i < this.body.length; i++) {
                 const line = this.body[i];
-                result = promisifyExec(line, localScope);
+                result = await promisifyExec(line, localScope);
             }
 
             return result;

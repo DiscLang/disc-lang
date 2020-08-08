@@ -24,6 +24,9 @@ Program.prototype = {
             }
 
         } catch (error) {
+            if(error.message.includes("'length'")) {
+                throw error;
+            }
             scope.read('print')(error.message)
         }
     }
