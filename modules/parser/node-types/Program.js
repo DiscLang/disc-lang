@@ -1,4 +1,5 @@
 const indent = require('./utils/indent');
+const { promisifyExec } = require('./utils/promisify');
 
 function Program(body) {
     this.type = 'Program';
@@ -16,10 +17,15 @@ Program.prototype = {
         return ['begin'].concat(bodyStrings).concat('end').join('\n');
     },
 
-    execute: function (scope) {
-        this.body.forEach(function(node) {
-            node.execute(scope);
-        });
+    execute: async function (scope) {
+        try {
+            for (let i = 0; i < this.body.length; i++) {
+                await promisifyExec(this.body[i], scope);
+            }
+
+        } catch (error) {
+            scope.read('print')(error.message)
+        }
     }
 }
 

@@ -1,3 +1,5 @@
+const { promisifyExec } = require('./utils/promisify');
+
 function InitializationExpression(variableType, identifier, value) {
     this.type = 'InitializationExpression';
 
@@ -8,17 +10,17 @@ function InitializationExpression(variableType, identifier, value) {
 
 InitializationExpression.prototype = {
     toString: function () {
-        if(this.variableType === 'let') {
+        if (this.variableType === 'let') {
             return `let ${this.identifier.toString()} be ${this.value.toString()}`;
         } else {
             return `define ${this.identifier.toString()} as ${this.value.toString()}`;
         }
     },
 
-    execute: function (scope) {
-        const literalValue = this.value.execute(scope);
+    execute: async function (scope) {
+        const literalValue = await promisifyExec(this.value, scope);
 
-        if(this.variableType === 'let') {
+        if (this.variableType === 'let') {
             scope.initialize(this.identifier.name, literalValue);
         } else {
             scope.define(this.identifier.name, literalValue);

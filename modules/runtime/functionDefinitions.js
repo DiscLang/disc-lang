@@ -163,9 +163,9 @@ module.exports = function (promptSync) {
         return value instanceof Nil;
     };
 
-    finalApi.Nil = function () {
+    finalApi.newNil = function () {
         return getNil();
-    }
+    };
 
     // User I/O
 

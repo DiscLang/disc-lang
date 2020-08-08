@@ -1,3 +1,5 @@
+const { promisifyResult } = require('./utils/promisify');
+
 function convertTokenToValue(token) {
     switch (token.type) {
         case 'String':
@@ -22,8 +24,8 @@ Literal.prototype = {
             ? `"${this.value}"`
             : this.value.toString();
     },
-    execute: function () {
-        return this.value;
+    execute: async function () {
+        return await promisifyResult(this.value);
     }
 }
 

@@ -1,4 +1,5 @@
 const indent = require('./utils/indent');
+const { promisifyExec } = require('./utils/promisify');
 
 function Loop(condition) {
     this.type = 'Loop';
@@ -18,16 +19,23 @@ Loop.prototype = {
         return [loopStart].concat(bodyContent).concat(['end']).join('\n');
     },
 
-    execute: function (scope) {
+    execute: async function (scope) {
         const localScope = scope.new();
 
-        while(this.condition.execute(localScope)) {
+        let conditionResult = await promisifyExec(this.condition, localScope);
+        let lastResult;
+
+        while(conditionResult) {
             const runScope = localScope.new();
 
-            for(let i = 0; i < this.body.length; i++) {
-                this.body[i].execute(runScope);
+            for (let i = 0; i < this.body.length; i++) {
+                lastResult = await promisifyExec(this.body[i], runScope);
             }
+            
+            conditionResult = await promisifyExec(this.condition, localScope);
         }
+
+        return lastResult;
     }
 }
 

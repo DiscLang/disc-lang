@@ -1,3 +1,5 @@
+const { promisifyExec } = require('./utils/promisify');
+
 function Group() {
     this.type = 'Group';
     this.body;
@@ -12,8 +14,8 @@ Group.prototype = {
         return `(${this.body.toString()})`;
     },
 
-    execute: function (scope) {
-        return this.body.execute(scope);
+    execute: async function (scope) {
+        return await promisifyExec(this.body, scope);
     }
 }
 

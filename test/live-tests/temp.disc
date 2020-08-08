@@ -1,0 +1,40 @@
+begin
+    # call can be used instead of the colon notation
+    let questions be (call newArray)
+    let answers be (call newDictionary)
+    
+    # add questions to the questions array
+    appendTo: questions (newArray: "name" "What is your name?")
+    appendTo: questions (newArray: "quest" "What is your quest?")
+    appendTo: questions (newArray: "color" "What is your favorite color?")
+    
+    # Array indices start at 1
+    let count be 1
+    
+    repeat while count isLessOrEqualTo (lengthOf: questions)
+        let question be readFrom: questions count
+        let questionKey be readFrom: question 1
+        let response be prompt: readFrom: question 2
+        
+        setOn: answers questionKey response
+
+        update count to count + 1
+    end
+
+    let badName be (readFrom: answers "name") isEqualTo ""
+
+	let acceptableQuest be "I seek the holy grail"
+    #let quest be readFrom: answers "quest"
+    let badQuest be not: ((toLowerCase: quest) isEqualTo (toLowerCase: acceptableQuest))
+    
+    let badColor be (readFrom: answers "color") isEqualTo ""
+
+    if badName or badQuest or badColor
+        print: "... and that's how you ended up in the pit."
+    else
+        print: join: "Congrats " (readFrom: answers "name") "!"
+        print: join: "You managed to escape the pit on your quest."
+        print: join: "Here's a shirt for you. The text is " (readFrom: answers "color") " just like you like it."
+    end
+
+end

@@ -1,3 +1,5 @@
+const { promisifyExec, promisifyResult } = require('./utils/promisify');
+
 function FunctionCall(name) {
     this.type = 'FunctionCall';
     this.name = name;
@@ -15,15 +17,20 @@ FunctionCall.prototype = {
         return [this.name + ':'].concat(argumentStrings).join(' ');
     },
 
-    execute: function (scope) {
+    execute: async function (scope) {
         const behavior = scope.read(this.name);
 
         if (typeof behavior !== 'function') {
             throw new Error(`Cannot call ${this.name}, it is not a function.`);
         } else {
-            const args = this.arguments.map(argument => argument.execute(scope));
+            let args = [];
 
-            return behavior.apply(null, args);
+            for (let i = 0; i < this.arguments.length; i++) {
+                const argument = await promisifyExec(this.arguments[i], scope);
+                args.push(argument);
+            }
+
+            return await promisifyResult(behavior.apply(null, args));
         }
     }
 }

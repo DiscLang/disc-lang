@@ -1,4 +1,5 @@
 const indent = require('./utils/indent');
+const { promisifyExec } = require('./utils/promisify');
 
 function Conditional(blockType, condition) {
     this.type = 'Conditional';
@@ -14,7 +15,7 @@ Conditional.prototype = {
     },
 
     setFail: function (failConditional) {
-        if(this.fail === null) {
+        if (this.fail === null) {
             this.fail = failConditional;
         } else {
             this.fail.setFail(failConditional);
@@ -27,26 +28,33 @@ Conditional.prototype = {
 
         let finalContent = [conditionStart].concat(successContent);
 
-        if(this.fail !== null) {
+        if (this.fail !== null) {
             finalContent.concat(this.fail.toString());
         }
 
-        if(this.blockType === 'if') {
+        if (this.blockType === 'if') {
             finalContent.concat('end');
         }
 
         return finalContent.join('\n');
     },
 
-    execute: function (scope) {
+    execute: async function (scope) {
         const localScope = scope.new();
 
-        if(this.condition.execute(localScope)) {
-            for(let i = 0; i < this.success.length; i++) {
-                this.success[i].execute(localScope);
+        let conditionResult = await promisifyExec(this.condition, localScope);
+        let lastResult;
+
+        if(conditionResult) {
+            const actions = this.success;
+
+            for(let i = 0; i < actions.length; i++) {
+                lastResult = await promisifyExec(actions[i], localScope);
             }
-        } else if(this.fail !== null) {
-            this.fail.execute(scope);
+
+            return lastResult;
+        } else {
+            return promisifyExec(this.fail, scope);
         }
     }
 }

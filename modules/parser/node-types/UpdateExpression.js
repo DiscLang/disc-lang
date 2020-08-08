@@ -1,3 +1,5 @@
+const { promisifyExec } = require('./utils/promisify');
+
 function UpdateExpression(identifier, value) {
     this.type = 'UpdateExpression';
 
@@ -10,9 +12,9 @@ UpdateExpression.prototype = {
         return `update ${this.identifier.toString()} to ${this.value.toString()}`;
     },
 
-    execute: function (scope) {
-        const literalValue = this.value.execute(scope);
-
+    execute: async function (scope) {
+        const literalValue = await promisifyExec(this.value, scope);
+        
         scope.update(this.identifier.name, literalValue);
 
         return literalValue;

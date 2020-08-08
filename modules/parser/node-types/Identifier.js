@@ -7,10 +7,8 @@ Identifier.prototype = {
     toString: function () {
         return this.name;
     },
-    execute: function (scope) {
-        const value = scope.read(this.name);
-
-        return value;
+    execute: async function (scope) {
+        return await Promise.resolve(scope.read(this.name));
     }
 }
 
