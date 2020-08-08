@@ -202,7 +202,7 @@ module.exports = function ({
         }
     };
 
-    finalApi.clear = function () {
+    finalApi.clearScreen = function () {
         if(typeof window === 'object') {
             window.clear();
         } else {
