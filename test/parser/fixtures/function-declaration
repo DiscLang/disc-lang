@@ -1,0 +1,8 @@
+begin
+    declare function buildCountString withParameters count
+        join: "The count is: " count
+    end
+
+    print: buildCountString: 5
+
+end

@@ -1,6 +1,7 @@
 const booleanOptions = ['true', 'false'];
-const transitionalOperators = ['be', 'as', 'to', 'with', 'while'];
-const controlOperators = ['loop', 'repeat', 'if', 'else'];
+const transitionalOperators = ['be', 'as', 'to', 'with', 'while', 'withparameters'];
+const controlOperators = ['loop', 'repeat', 'if', 'else', 'function'];
+const assignmentCommands = ['let', 'define', 'declare'];
 const openBlockDelimiter = 'begin';
 const closeBlockDelimiter = 'end';
 const callOperator = 'call';
@@ -33,6 +34,8 @@ const grammar = {
     'Boolean': (value) => booleanOptions.includes(value.toLowerCase()),
     'String': (value) => value[0] === characterSet.stringBeginIndicator
         && value[value.length - 1] === characterSet.stringEndIndicator,
+
+    'AssignmentCommand': (value) => assignmentCommands.includes(value),
 
     'InfixOperator': (value) => infixOperators.includes(value),
     'Operator': (value) => characterSet.operators

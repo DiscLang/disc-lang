@@ -1,0 +1,45 @@
+{
+    "type": "Program",
+    "body": [
+        {
+            "type": "FunctionDeclaration",
+            "name": {
+                "type": "Identifier",
+                "name": "buildcountstring"
+            },
+            "parameters": [],
+            "body": [
+                {
+                    "type": "FunctionCall",
+                    "name": "join",
+                    "arguments": [
+                        {
+                            "type": "Literal",
+                            "value": "The count is: "
+                        },
+                        {
+                            "type": "Identifier",
+                            "name": "count"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "FunctionCall",
+            "name": "print",
+            "arguments": [
+                {
+                    "type": "FunctionCall",
+                    "name": "buildcountstring",
+                    "arguments": [
+                        {
+                            "type": "Literal",
+                            "value": 5
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -15,11 +15,13 @@ begin
         update count to (count + 1)
     end
 
-    if count isEqualTo 4
-        print: "testing"
-    else if false
-        print: "this is also not supposed to run"
-    else
-        print: "This should print"
+    declare function printResult withParameters count
+        if count isEqualTo 4
+            print: "testing"
+        else if false
+            print: "this is also not supposed to run"
+        else
+            print: "This should print"
+        end
     end
 end

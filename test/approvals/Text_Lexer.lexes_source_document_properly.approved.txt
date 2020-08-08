@@ -10,7 +10,7 @@
         {
             "line": 2,
             "token": "let",
-            "type": "Identifier"
+            "type": "AssignmentCommand"
         },
         {
             "line": 2,
@@ -32,7 +32,7 @@
         {
             "line": 3,
             "token": "let",
-            "type": "Identifier"
+            "type": "AssignmentCommand"
         },
         {
             "line": 3,
@@ -94,7 +94,7 @@
         {
             "line": 4,
             "token": "let",
-            "type": "Identifier"
+            "type": "AssignmentCommand"
         },
         {
             "line": 4,
@@ -116,7 +116,7 @@
         {
             "line": 5,
             "token": "let",
-            "type": "Identifier"
+            "type": "AssignmentCommand"
         },
         {
             "line": 5,
@@ -165,7 +165,7 @@
         {
             "line": 10,
             "token": "let",
-            "type": "Identifier"
+            "type": "AssignmentCommand"
         },
         {
             "line": 10,
@@ -294,110 +294,144 @@
     [
         {
             "line": 18,
-            "token": "if",
+            "token": "declare",
+            "type": "AssignmentCommand"
+        },
+        {
+            "line": 18,
+            "token": "function",
             "type": "ControlOperator"
+        },
+        {
+            "line": 18,
+            "token": "printresult",
+            "type": "Identifier"
+        },
+        {
+            "line": 18,
+            "token": "withparameters",
+            "type": "TransitionalOperator"
         },
         {
             "line": 18,
             "token": "count",
             "type": "Identifier"
+        }
+    ],
+    [
+        {
+            "line": 19,
+            "token": "if",
+            "type": "ControlOperator"
         },
         {
-            "line": 18,
+            "line": 19,
+            "token": "count",
+            "type": "Identifier"
+        },
+        {
+            "line": 19,
             "token": "isequalto",
             "type": "Operator"
         },
         {
-            "line": 18,
+            "line": 19,
             "token": "4",
             "type": "Number"
         }
     ],
     [
         {
-            "line": 19,
+            "line": 20,
             "token": "print",
             "type": "Identifier"
         },
         {
-            "line": 19,
+            "line": 20,
             "token": ":",
             "type": "FunctionExecutionIndicator"
         },
         {
-            "line": 19,
+            "line": 20,
             "token": "\"testing\"",
             "type": "String"
         }
     ],
     [
         {
-            "line": 20,
+            "line": 21,
             "token": "else",
             "type": "ControlOperator"
         },
         {
-            "line": 20,
+            "line": 21,
             "token": "if",
             "type": "ControlOperator"
         },
         {
-            "line": 20,
+            "line": 21,
             "token": "false",
             "type": "Boolean"
         }
     ],
     [
         {
-            "line": 21,
+            "line": 22,
             "token": "print",
             "type": "Identifier"
         },
         {
-            "line": 21,
+            "line": 22,
             "token": ":",
             "type": "FunctionExecutionIndicator"
         },
         {
-            "line": 21,
+            "line": 22,
             "token": "\"this is also not supposed to run\"",
             "type": "String"
         }
     ],
     [
         {
-            "line": 22,
+            "line": 23,
             "token": "else",
             "type": "ControlOperator"
         }
     ],
     [
         {
-            "line": 23,
+            "line": 24,
             "token": "print",
             "type": "Identifier"
         },
         {
-            "line": 23,
+            "line": 24,
             "token": ":",
             "type": "FunctionExecutionIndicator"
         },
         {
-            "line": 23,
+            "line": 24,
             "token": "\"This should print\"",
             "type": "String"
         }
     ],
     [
         {
-            "line": 24,
+            "line": 25,
             "token": "end",
             "type": "CloseBlockDelimiter"
         }
     ],
     [
         {
-            "line": 25,
+            "line": 26,
+            "token": "end",
+            "type": "CloseBlockDelimiter"
+        }
+    ],
+    [
+        {
+            "line": 27,
             "token": "end",
             "type": "CloseBlockDelimiter"
         }

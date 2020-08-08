@@ -1,6 +1,7 @@
 const BinaryExpression = require('./node-types/BinaryExpression');
 const Conditional = require('./node-types/Conditional');
 const FunctionCall = require('./node-types/FunctionCall');
+const FunctionDeclaration = require('./node-types/FunctionDeclaration');
 const Group = require('./node-types/Group');
 const Identifier = require('./node-types/Identifier');
 const InitializationExpression = require('./node-types/InitializationExpression');
@@ -33,6 +34,37 @@ function getNextTokenLine(tokenLines) {
     return tokenLines.splice(0, 1)[0];
 }
 
+function isFunctionDeclaration(tokenLine) {
+    return tokenLine.length > 2
+        && tokenLine[0].token === 'declare'
+        && tokenLine[1].token === 'function'
+        && tokenLine[2].type === 'Identifier';
+}
+
+function parseFunctionDeclaration(currentTokenLine, tokenLines) {
+    const tokens = cut(currentTokenLine, 2);
+    const name = parseIdentifier(tokens);
+    const parameters = [];
+
+    if (tokens[1] === 'withparameters' && tokens.length > 2) {
+        cut(tokens, 2)
+            .forEach(function (token) {
+                parameters.push(parseIdentifier([token]));
+            });
+    }
+
+    const newFunction = FunctionDeclaration.new(name, parameters);
+
+    const body = parseBlockBody(tokenLines);
+
+    console.log(tokenLines);
+    console.log(body);
+
+    newFunction.setBody(body);
+
+    return newFunction;
+}
+
 function isLoop(tokenSet) {
     return (tokenSet[0].token === 'loop' || tokenSet[0].token === 'repeat')
         && tokenSet[1].token === 'while';
@@ -50,6 +82,61 @@ function parseLoop(currentTokenLine, tokenLines) {
     return newLoop;
 }
 
+function isIf(tokenLine) {
+    return tokenLine[0].token === 'if';
+}
+
+function isElse(currentTokenLine) {
+    return currentTokenLine[0].token === 'else'
+}
+
+function parseIf(currentTokenLine, tokenLines) {
+    const tokens = cut(currentTokenLine, 1);
+    const condition = parseTokenSet(tokens.slice(0));
+    const newConditional = Conditional.new('if', condition);
+
+    const success = parseBlockBody(tokenLines);
+
+    newConditional.setSuccess(success);
+
+    let hasElse;
+    let elseIsTerminal;
+
+    do {
+        hasElse = tokenLines[0][0].token === 'else'
+        elseIsTerminal = hasElse && tokenLines[0].length === 1;
+
+        if (hasElse) {
+            const conditionalType = elseIsTerminal
+                ? 'else' : 'else if';
+
+            let condition;
+
+            if (elseIsTerminal) {
+                condition = Literal.new({ type: 'Boolean', token: 'true' });
+            } else {
+                cut(tokenLines[0], 2);
+                condition = parseTokenSet(tokenLines[0]);
+            }
+            const elseConditional = Conditional.new(
+                conditionalType,
+                condition);
+
+            const success = parseBlockBody(cut(tokenLines, 1));
+
+            elseConditional.setSuccess(success);
+            newConditional.setFail(elseConditional);
+        }
+
+        if (elseIsTerminal) {
+            break;
+        }
+
+    } while (hasElse)
+
+    return newConditional
+}
+
 function parseBlockBody(tokenLines) {
     const body = [];
 
@@ -61,55 +148,14 @@ function parseBlockBody(tokenLines) {
 
         let parsedLine;
 
-        if (currentTokenLine[0].token === 'if') {
-            const tokens = cut(currentTokenLine, 1);
-            const condition = parseTokenSet(tokens.slice(0));
-            const newConditional = Conditional.new('if', condition);
-
-            const success = parseBlockBody(tokenLines);
-
-            newConditional.setSuccess(success);
-
-            let hasElse;
-            let elseIsTerminal;
-
-            do {
-                hasElse = tokenLines[0][0].token === 'else'
-                elseIsTerminal = hasElse && tokenLines[0].length === 1;
-
-                if (hasElse) {
-                    const conditionalType = elseIsTerminal
-                        ? 'else' : 'else if';
-
-                    let condition;
-
-                    if (elseIsTerminal) {
-                        condition = Literal.new({ type: 'Boolean', token: 'true' });
-                    } else {
-                        cut(tokenLines[0], 2);
-                        condition = parseTokenSet(tokenLines[0]);
-                    }
-                    const elseConditional = Conditional.new(
-                        conditionalType,
-                        condition);
-
-                    const success = parseBlockBody(cut(tokenLines, 1));
-
-                    elseConditional.setSuccess(success);
-                    newConditional.setFail(elseConditional);
-                }
-
-                if (elseIsTerminal) {
-                    break;
-                }
-
-            } while (hasElse)
-
-            parsedLine = newConditional;
-        } else if (currentTokenLine[0].token === 'else') {
+        if (isIf(currentTokenLine)) {
+            parsedLine = parseIf(currentTokenLine, tokenLines);
+        } else if (isElse(currentTokenLine)) {
             tokenLines.unshift(currentTokenLine);
 
             return body;
+        } else if (isFunctionDeclaration(currentTokenLine)) {
+            parsedLine = parseFunctionDeclaration(currentTokenLine, tokenLines);
         } else if (isLoop(currentTokenLine)) {
             parsedLine = parseLoop(currentTokenLine, tokenLines);
         } else {
