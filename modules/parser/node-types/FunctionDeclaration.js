@@ -1,10 +1,10 @@
 const { promisifyExec } = require('./utils/promisify');
 const indent = require('./utils/indent');
 
-function FunctionDeclaration(name) {
+function FunctionDeclaration(name, parameters) {
     this.type = 'FunctionDeclaration';
     this.name = name;
-    this.parameters = [];
+    this.parameters = parameters;
     this.body = [];
 }
 
@@ -27,7 +27,7 @@ FunctionDeclaration.prototype = {
     },
 
     execute: function (scope) {
-        const newFunction = async function (...args) {
+        const newFunction = async (...args) => {
             if(args.length != this.parameters.length) {
                 throw new Error(`Function '${this.name}' takes ${this.parameters.length} arguments, but received ${this.args.length}.`);
             }
@@ -50,12 +50,12 @@ FunctionDeclaration.prototype = {
             return result;
         };
 
-        scope.define(this.name.toLowerCase(), newFunction);
+        scope.define(this.name.name.toLowerCase(), newFunction);
     }
 };
 
-FunctionDeclaration.new = function (name) {
-    return new FunctionDeclaration(name);
+FunctionDeclaration.new = function (name, parameters) {
+    return new FunctionDeclaration(name, parameters);
 };
 
 module.exports = FunctionDeclaration;
