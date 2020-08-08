@@ -11,4 +11,7 @@ function loadSource(fileName) {
 
 const programSource = loadSource(sourceFileName);
 
-programLoader.loadAndRun(programSource, require('prompt-sync'));
+programLoader.loadAndRun(programSource, {
+    promptSync: require('prompt-sync'),
+    clear: require('clear')
+});

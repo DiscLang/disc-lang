@@ -3,9 +3,9 @@ const functionDefinitions = require('./functionDefinitions');
 const lexer = require('../lexer/sourceLexer');
 const parser = require('../parser/tokenParser');
 
-function prepScope(promptSync) {
+function prepScope(externalModules) {
     const programScope = EnvironmentTable.new();
-    const functionApi = functionDefinitions(promptSync);
+    const functionApi = functionDefinitions(externalModules);
 
     Object.keys(functionApi).forEach(function(key){
         programScope.define(key.toLowerCase(), functionApi[key]);
@@ -20,8 +20,8 @@ function lexAndParse(sourceDocument) {
     return parser.parse(lexedSource);
 }
 
-function loadAndRun(sourceDocument, promptSync) {
-    const programScope = prepScope(promptSync);
+function loadAndRun(sourceDocument, externalModules) {
+    const programScope = prepScope(externalModules);
     const programTree = lexAndParse(sourceDocument);
 
     programTree.execute(programScope);

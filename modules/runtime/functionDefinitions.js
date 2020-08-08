@@ -82,7 +82,10 @@ function verifyNumberValues(operation, a, b) {
     }
 }
 
-module.exports = function (promptSync) {
+module.exports = function ({
+    promptSync,
+    clear
+}) {
     let finalApi = {};
 
     finalApi.newArray = function (...args) {
@@ -179,19 +182,33 @@ module.exports = function (promptSync) {
         });
     };
 
-    finalApi.prompt = function (message) {
+    finalApi.prompt = async function (message) {
         if (typeof window === 'object') {
-            const response = prompt(message);
+            return new Promise(function (resolve) {
+                setTimeout(function () {
+                    const response = prompt(message);
 
-            return response === null
-                ? ''
-                : response.trim();
+                    const sanitizedResponse = response === null
+                    ? ''
+                    : response.trim();
+
+                    resolve(sanitizedResponse);
+                }, 10);
+            });
         } else {
             const prompt = promptSync()
 
             return prompt(message).trim();
         }
     };
+
+    finalApi.clear = function () {
+        if(typeof window === 'object') {
+            window.clear();
+        } else {
+            clear()
+        }
+    }
 
     // Strings.
 

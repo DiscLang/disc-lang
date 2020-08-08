@@ -20,6 +20,7 @@
     "tinyify": "^3.0.0"
   },
   "dependencies": {
+    "clear": "^0.1.0",
     "prompt-sync": "^4.2.0"
   }
 }
