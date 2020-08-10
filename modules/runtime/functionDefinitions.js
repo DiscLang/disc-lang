@@ -1,4 +1,4 @@
-const getNil = require('./Nil');
+const { Nil, getNil } = require('./Nil');
 
 function Dictionary() {
     this.dictionary = {};
@@ -113,18 +113,21 @@ module.exports = function ({
     };
 
     finalApi.readFrom = function (valuesObject, key) {
+        let result;
+
         if (valuesObject instanceof Dictionary) {
             const safeKey = key.toLowerCase();
-            return valuesObject.read(safeKey);
+            result = valuesObject.read(safeKey);
         } else if (Array.isArray(valuesObject)) {
             const safeKey = parseInt(key) - 1;
-
-            return typeof valuesObject[safeKey] !== 'undefined'
-                ? valuesObject[safeKey]
-                : getNil();
+            result = valuesObject[safeKey];
+        } else if (valuesObject instanceof Nil) {
+            result = null;
         } else {
-            throw new Error('Read can only be used on dictionaries and arrays.');
+            throw new Error('ReadFrom can only be used on dictionaries, arrays, and Nil.');
         }
+
+        return result === null || typeof result === 'undefined' ? getNil() : result
     };
 
     finalApi.removeFrom = function (valuesObject, key) {
@@ -168,7 +171,7 @@ module.exports = function ({
                 window.print(value);
             } else {
                 console.log(value);
-            }    
+            }
         });
     };
 
@@ -179,8 +182,8 @@ module.exports = function ({
                     const response = prompt(message);
 
                     const sanitizedResponse = response === null
-                    ? ''
-                    : response.trim();
+                        ? ''
+                        : response.trim();
 
                     resolve(sanitizedResponse);
                 }, 10);
@@ -193,7 +196,7 @@ module.exports = function ({
     };
 
     finalApi.clearScreen = function () {
-        if(typeof window === 'object') {
+        if (typeof window === 'object') {
             window.clear();
         } else {
             clear()
@@ -218,16 +221,16 @@ module.exports = function ({
         return value.split(delimiter);
     }
 
-    finalApi.stringToNumber = function(value) {
-        if(typeof seconds !== 'string') {
+    finalApi.stringToNumber = function (value) {
+        if (typeof seconds !== 'string') {
             throw new Error(`Function stringToNumber requires a string.`);
         }
-        
+
         return parseFloat(value);
     }
 
     finalApi.getCharacterAtIndex = function (value, index) {
-        if(typeof value !== 'string') {
+        if (typeof value !== 'string') {
             throw new Error(`Cannot read characters from a non-string value. Got ${value} of type ${typeof value}.`);
         }
         return value[index - 1];
@@ -240,7 +243,7 @@ module.exports = function ({
     // Numbers.
 
     finalApi.numberToString = function (value) {
-        if(typeof value !== 'number') {
+        if (typeof value !== 'number') {
             throw new Error('Function numberToString requires an argument of type number.');
         }
         return value.toString();
@@ -249,7 +252,7 @@ module.exports = function ({
     // Logic.
 
     finalApi.not = function (value) {
-        if(typeof value !== 'boolean') {
+        if (typeof value !== 'boolean') {
             throw new Error(`Cannot apply 'not' function to non-boolean values. Got value ${value} of type ${typeof value}`);
         }
 
@@ -258,13 +261,15 @@ module.exports = function ({
 
     // Other.
 
-    finalApi.wait = function(seconds) {
-        if(typeof seconds !== 'number') {
+    finalApi.wait = function (seconds) {
+        if (typeof seconds !== 'number') {
             throw new Error(`Function wait requires the number of seconds to wait, as a number.`);
         }
 
-        return new Promise(function(resolve) {
-            setTimeout(resolve, 1000 * seconds);
+        return new Promise(function (resolve) {
+            setTimeout(function() {
+                resolve(true);
+            }, 1000 * seconds);
         });
     }
 
@@ -314,7 +319,7 @@ module.exports = function ({
         return a < b ? a : b;
     }
 
-    finalApi.remainder = function(a, b) {
+    finalApi.remainder = function (a, b) {
         verifyNumberValues('modulus', a, b);
 
         return a % b;
@@ -331,7 +336,7 @@ module.exports = function ({
     finalApi.log = function (value, base = Math.E) {
         verifyNumberValues('log', value, base);
 
-        return Math.log(value)/Math.log(base);
+        return Math.log(value) / Math.log(base);
     }
 
     return finalApi;

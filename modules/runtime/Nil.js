@@ -10,4 +10,7 @@ function getNil() {
     return Object.freeze(newNil);
 }
 
-module.exports = getNil;
+module.exports = {
+    Nil,
+    getNil
+};

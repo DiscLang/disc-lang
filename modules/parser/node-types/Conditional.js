@@ -1,6 +1,6 @@
 const indent = require('./utils/indent');
 const { promisifyExec } = require('./utils/promisify');
-const getNil = require('../../runtime/Nil');
+const { getNil } = require('../../runtime/Nil');
 
 function Conditional(blockType, condition) {
     this.type = 'Conditional';
@@ -46,10 +46,10 @@ Conditional.prototype = {
         let conditionResult = await promisifyExec(this.condition, localScope);
         let lastResult = getNil();
 
-        if(conditionResult) {
+        if (conditionResult) {
             const actions = this.success;
 
-            for(let i = 0; i < actions.length; i++) {
+            for (let i = 0; i < actions.length; i++) {
                 lastResult = await promisifyExec(actions[i], localScope);
             }
 
