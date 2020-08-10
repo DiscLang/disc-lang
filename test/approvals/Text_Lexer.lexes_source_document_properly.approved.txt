@@ -179,247 +179,247 @@
         },
         {
             "line": 10,
+            "token": "...",
+            "type": "LineContinuationOperator"
+        }
+    ],
+    [
+        {
+            "line": 11,
             "token": "(",
             "type": "OpenGroupDelimiter"
         },
         {
-            "line": 10,
+            "line": 11,
             "token": "concat",
             "type": "Identifier"
         },
         {
-            "line": 10,
+            "line": 11,
             "token": ":",
             "type": "FunctionExecutionIndicator"
         },
         {
-            "line": 10,
+            "line": 11,
             "token": "\"Current count is: \"",
             "type": "String"
         },
         {
-            "line": 10,
+            "line": 11,
             "token": "count",
             "type": "Identifier"
         },
         {
-            "line": 10,
+            "line": 11,
             "token": ")",
             "type": "CloseGroupDelimiter"
         }
     ],
     [
         {
-            "line": 12,
+            "line": 13,
             "token": "print",
             "type": "Identifier"
         },
         {
-            "line": 12,
+            "line": 13,
             "token": ":",
             "type": "FunctionExecutionIndicator"
         },
         {
-            "line": 12,
+            "line": 13,
             "token": "countstring",
             "type": "Identifier"
         }
     ],
     [
         {
-            "line": 13,
+            "line": 14,
             "token": "print",
             "type": "Identifier"
         },
         {
-            "line": 13,
+            "line": 14,
             "token": ":",
             "type": "FunctionExecutionIndicator"
         },
         {
-            "line": 13,
+            "line": 14,
             "token": "\"This is a test of escaping '\"'.\"",
             "type": "String"
         }
     ],
     [
         {
-            "line": 15,
+            "line": 16,
             "token": "update",
             "type": "Identifier"
         },
         {
-            "line": 15,
+            "line": 16,
             "token": "count",
             "type": "Identifier"
         },
         {
-            "line": 15,
+            "line": 16,
             "token": "to",
             "type": "TransitionalOperator"
         },
         {
-            "line": 15,
+            "line": 16,
             "token": "(",
             "type": "OpenGroupDelimiter"
         },
         {
-            "line": 15,
+            "line": 16,
             "token": "count",
             "type": "Identifier"
         },
         {
-            "line": 15,
+            "line": 16,
             "token": "+",
             "type": "Operator"
         },
         {
-            "line": 15,
+            "line": 16,
             "token": "1",
             "type": "Number"
         },
         {
-            "line": 15,
+            "line": 16,
             "token": ")",
             "type": "CloseGroupDelimiter"
         }
     ],
     [
         {
-            "line": 16,
+            "line": 17,
             "token": "end",
             "type": "CloseBlockDelimiter"
         }
     ],
     [
         {
-            "line": 18,
+            "line": 19,
             "token": "declare",
             "type": "AssignmentCommand"
         },
         {
-            "line": 18,
+            "line": 19,
             "token": "function",
             "type": "ControlOperator"
         },
         {
-            "line": 18,
+            "line": 19,
             "token": "printresult",
             "type": "Identifier"
         },
         {
-            "line": 18,
+            "line": 19,
             "token": "withparameters",
             "type": "TransitionalOperator"
         },
         {
-            "line": 18,
+            "line": 19,
             "token": "count",
             "type": "Identifier"
         }
     ],
     [
         {
-            "line": 19,
+            "line": 20,
             "token": "if",
             "type": "ControlOperator"
         },
         {
-            "line": 19,
+            "line": 20,
             "token": "count",
             "type": "Identifier"
         },
         {
-            "line": 19,
+            "line": 20,
             "token": "isequalto",
             "type": "Operator"
         },
         {
-            "line": 19,
+            "line": 20,
             "token": "4",
             "type": "Number"
         }
     ],
     [
         {
-            "line": 20,
+            "line": 21,
             "token": "print",
             "type": "Identifier"
         },
         {
-            "line": 20,
+            "line": 21,
             "token": ":",
             "type": "FunctionExecutionIndicator"
         },
         {
-            "line": 20,
+            "line": 21,
             "token": "\"testing\"",
             "type": "String"
         }
     ],
     [
         {
-            "line": 21,
+            "line": 22,
             "token": "else",
             "type": "ControlOperator"
         },
         {
-            "line": 21,
+            "line": 22,
             "token": "if",
             "type": "ControlOperator"
         },
         {
-            "line": 21,
+            "line": 22,
             "token": "false",
             "type": "Boolean"
         }
     ],
     [
         {
-            "line": 22,
+            "line": 23,
             "token": "print",
             "type": "Identifier"
         },
         {
-            "line": 22,
+            "line": 23,
             "token": ":",
             "type": "FunctionExecutionIndicator"
         },
         {
-            "line": 22,
+            "line": 23,
             "token": "\"this is also not supposed to run\"",
             "type": "String"
         }
     ],
     [
         {
-            "line": 23,
+            "line": 24,
             "token": "else",
             "type": "ControlOperator"
         }
     ],
     [
         {
-            "line": 24,
+            "line": 25,
             "token": "print",
             "type": "Identifier"
         },
         {
-            "line": 24,
+            "line": 25,
             "token": ":",
             "type": "FunctionExecutionIndicator"
         },
         {
-            "line": 24,
+            "line": 25,
             "token": "\"This should print\"",
             "type": "String"
-        }
-    ],
-    [
-        {
-            "line": 25,
-            "token": "end",
-            "type": "CloseBlockDelimiter"
         }
     ],
     [
@@ -432,6 +432,13 @@
     [
         {
             "line": 27,
+            "token": "end",
+            "type": "CloseBlockDelimiter"
+        }
+    ],
+    [
+        {
+            "line": 28,
             "token": "end",
             "type": "CloseBlockDelimiter"
         }

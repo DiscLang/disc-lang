@@ -134,6 +134,10 @@ function parseIf(currentTokenLine, tokenLines) {
     return newConditional
 }
 
+function last(values) {
+    return values[values.length - 1];
+}
+
 function parseBlockBody(tokenLines) {
     const body = [];
 
@@ -141,7 +145,17 @@ function parseBlockBody(tokenLines) {
         tokenLines.length > 0
         && tokenLines[0][0].token !== 'end'
     ) {
-        const currentTokenLine = getNextTokenLine(tokenLines);
+        let currentTokenLine = getNextTokenLine(tokenLines);
+
+        while(last(currentTokenLine).type === 'LineContinuationOperator'){
+            currentTokenLine.pop()
+            currentTokenLine = currentTokenLine.concat(getNextTokenLine(tokenLines));
+        }
+
+        if(last(currentTokenLine).type === 'LineContinuationOperator') {
+            currentTokenLine.pop();
+            currentToken
+        }
 
         let parsedLine;
 

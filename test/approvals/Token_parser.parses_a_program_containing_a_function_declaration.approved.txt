@@ -7,7 +7,12 @@
                 "type": "Identifier",
                 "name": "buildcountstring"
             },
-            "parameters": [],
+            "parameters": [
+                {
+                    "type": "Identifier",
+                    "name": "count"
+                }
+            ],
             "body": [
                 {
                     "type": "FunctionCall",

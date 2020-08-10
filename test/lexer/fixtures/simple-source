@@ -7,7 +7,8 @@ begin
     # I am a comment. Don't interpret me!
     
     loop while count isLessThan 5
-        let countString be (concat: "Current count is: " count)
+        let countString be ...
+            (concat: "Current count is: " count)
 
         print: countString
         print: "This is a test of escaping '\"'."

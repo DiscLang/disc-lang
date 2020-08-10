@@ -7,6 +7,7 @@ const closeBlockDelimiter = 'end';
 const callOperator = 'call';
 const subtractionToken = '-';
 const infixOperators = ['::', 'toInfix'];
+const lineContinuationOperator = '...';
 
 const characterSet = {
     operators: ['+', subtractionToken, '*', '/'],
@@ -38,6 +39,8 @@ const grammar = {
     'AssignmentCommand': (value) => assignmentCommands.includes(value),
 
     'InfixOperator': (value) => infixOperators.includes(value),
+    'LineContinuationOperator': value => value === lineContinuationOperator,
+    
     'Operator': (value) => characterSet.operators
         .concat(['and', 'or'])
         .concat(comparisonOperators).includes(value),
