@@ -28,7 +28,7 @@ function numericOnly(name, comparison) {
 }
 
 const comparisonOperations = {
-    'isgreaterghan': numericOnly('isGreaterThan', (a, b) => a > b),
+    'isgreaterthan': numericOnly('isGreaterThan', (a, b) => a > b),
     'islessthan': numericOnly('isLessThan', (a, b) => a < b),
     'isgreaterorequalto': numericOnly('isGreaterOrEqualTo', (a, b) => !(a < b)),
     'islessorequalto': numericOnly('isLessOrEqualTo', (a, b) => !(a > b)),
