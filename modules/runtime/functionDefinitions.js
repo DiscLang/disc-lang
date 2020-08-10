@@ -228,6 +228,14 @@ module.exports = function ({
         return value.split(delimiter);
     }
 
+    finalApi.stringToNumber = function(value) {
+        if(typeof seconds !== 'string') {
+            throw new Error(`Function stringToNumber requires a string.`);
+        }
+        
+        return parseFloat(value);
+    }
+
     finalApi.getCharacterAtIndex = function (value, index) {
         if(typeof value !== 'string') {
             throw new Error(`Cannot read characters from a non-string value. Got ${value} of type ${typeof value}.`);
@@ -239,6 +247,15 @@ module.exports = function ({
         return value.length;
     }
 
+    // Numbers.
+
+    finalApi.numberToString = function (value) {
+        if(typeof value !== 'number') {
+            throw new Error('Function numberToString requires an argument of type number.');
+        }
+        return value.toString();
+    }
+
     // Logic.
 
     finalApi.not = function (value) {
@@ -247,6 +264,18 @@ module.exports = function ({
         }
 
         return !value;
+    }
+
+    // Other.
+
+    finalApi.wait = function(seconds) {
+        if(typeof seconds !== 'number') {
+            throw new Error(`Function wait requires the number of seconds to wait, as a number.`);
+        }
+
+        return new Promise(function(resolve) {
+            setTimeout(resolve, 1000 * seconds);
+        });
     }
 
     // Math.
