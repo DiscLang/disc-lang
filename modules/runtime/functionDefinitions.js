@@ -195,6 +195,33 @@ module.exports = function ({
         }
     };
 
+    finalApi.readKey = async function () {
+        if (typeof window === 'object') {
+            return new Promise(function (resolve) {
+                function getKey(event) {
+                    document.removeEventListener('keypress', getKey);
+                    
+                    resolve(event.key);
+                }
+
+                document.addEventListener('keypress', getKey);
+            });
+        } else {
+            return new Promise(function (resolve) {
+                process.stdin.resume();
+                process.stdin.setRawMode(true);
+                process.stdin.setEncoding('utf8');
+
+                process.stdin.on('data', function (key) {
+                    process.stdin.pause();
+                    process.stdin.setRawMode(false);
+
+                    resolve(key);
+                });
+            });
+        }
+    }
+
     finalApi.clearScreen = function () {
         if (typeof window === 'object') {
             window.clear();
@@ -267,7 +294,7 @@ module.exports = function ({
         }
 
         return new Promise(function (resolve) {
-            setTimeout(function() {
+            setTimeout(function () {
                 resolve(true);
             }, 1000 * seconds);
         });
