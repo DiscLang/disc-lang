@@ -135,7 +135,7 @@ module.exports = function ({
             const safeKey = key.remove(key);
             return valuesObject.read(safeKey);
         } else if (Array.isArray(valuesObject)) {
-            const safeKey = parseInt(key);
+            const safeKey = parseInt(key) - 1;
 
             valuesObject.splice(safeKey, 1);
 
@@ -249,7 +249,7 @@ module.exports = function ({
     }
 
     finalApi.stringToNumber = function (value) {
-        if (typeof seconds !== 'string') {
+        if (typeof value !== 'string') {
             throw new Error(`Function stringToNumber requires a string.`);
         }
 
