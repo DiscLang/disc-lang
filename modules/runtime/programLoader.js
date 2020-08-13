@@ -24,7 +24,7 @@ function loadAndRun(sourceDocument, externalModules) {
     const programScope = prepScope(externalModules);
     const programTree = lexAndParse(sourceDocument);
 
-    programTree.execute(programScope);
+    return programTree.execute(programScope);
 }
 
 module.exports = {
