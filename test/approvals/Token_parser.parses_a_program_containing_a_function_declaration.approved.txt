@@ -5,12 +5,15 @@
             "type": "FunctionDeclaration",
             "name": {
                 "type": "Identifier",
-                "name": "buildcountstring"
+                "name": "buildcountstring",
+                "originalName": "buildCountString"
             },
+            "line": 2,
             "parameters": [
                 {
                     "type": "Identifier",
-                    "name": "count"
+                    "name": "count",
+                    "originalName": "count"
                 }
             ],
             "body": [
@@ -24,7 +27,8 @@
                         },
                         {
                             "type": "Identifier",
-                            "name": "count"
+                            "name": "count",
+                            "originalName": "count"
                         }
                     ]
                 }

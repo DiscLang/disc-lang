@@ -7,6 +7,7 @@
     "hello": "node ./ ./test/live-tests/hello-world.disc",
     "temp": "node ./ ./test/live-tests/temp.disc",
     "build": "node ./node_modules/browserify/bin/cmd.js -p tinyify ./web-index.js -o ./dist/disc-lang.min.js",
+    "build-and-copy-to": "npm run build; cp ./dist/disc-lang.min.js ",
     "build-dev": "node ./node_modules/browserify/bin/cmd.js ./web-index.js -o ./dist/disc-lang.min.js",
     "test": "node ./node_modules/mocha/bin/mocha ./test/**/*.test.js"
   },

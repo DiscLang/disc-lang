@@ -3,10 +3,12 @@
     "body": [
         {
             "type": "InitializationExpression",
+            "line": 2,
             "variableType": "let",
             "identifier": {
                 "type": "Identifier",
-                "name": "sum"
+                "name": "sum",
+                "originalName": "sum"
             },
             "value": {
                 "type": "BinaryExpression",
@@ -23,10 +25,12 @@
         },
         {
             "type": "InitializationExpression",
+            "line": 3,
             "variableType": "let",
             "identifier": {
                 "type": "Identifier",
-                "name": "computedvalue"
+                "name": "computedvalue",
+                "originalName": "computedValue"
             },
             "value": {
                 "type": "BinaryExpression",
@@ -54,10 +58,12 @@
         },
         {
             "type": "InitializationExpression",
+            "line": 4,
             "variableType": "let",
             "identifier": {
                 "type": "Identifier",
-                "name": "computevalue2"
+                "name": "computevalue2",
+                "originalName": "computeValue2"
             },
             "value": {
                 "type": "BinaryExpression",

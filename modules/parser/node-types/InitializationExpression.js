@@ -1,8 +1,9 @@
 const { promisifyExec } = require('./utils/promisify');
 
-function InitializationExpression(variableType, identifier, value) {
+function InitializationExpression(variableType, identifier, value, line) {
     this.type = 'InitializationExpression';
 
+    this.line = line;
     this.variableType = variableType;
     this.identifier = identifier;
     this.value = value;
@@ -30,8 +31,8 @@ InitializationExpression.prototype = {
     }
 }
 
-InitializationExpression.new = function (variableType, identifier, value) {
-    return new InitializationExpression(variableType, identifier, value);
+InitializationExpression.new = function (variableType, identifier, value, line) {
+    return new InitializationExpression(variableType, identifier, value, line);
 };
 
 module.exports = InitializationExpression;

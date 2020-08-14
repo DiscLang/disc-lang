@@ -28,5 +28,7 @@ function loadAndRun(sourceDocument, externalModules) {
 }
 
 module.exports = {
+    lexSource: lexer.lexSource,
+    parseSource: lexAndParse,
     loadAndRun
 }

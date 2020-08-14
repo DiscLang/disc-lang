@@ -3,10 +3,12 @@
     "body": [
         {
             "type": "InitializationExpression",
+            "line": 3,
             "variableType": "define",
             "identifier": {
                 "type": "Identifier",
-                "name": "pi"
+                "name": "pi",
+                "originalName": "pi"
             },
             "value": {
                 "type": "Literal",
@@ -15,10 +17,12 @@
         },
         {
             "type": "InitializationExpression",
+            "line": 4,
             "variableType": "define",
             "identifier": {
                 "type": "Identifier",
-                "name": "e"
+                "name": "e",
+                "originalName": "e"
             },
             "value": {
                 "type": "Literal",
@@ -27,10 +31,12 @@
         },
         {
             "type": "InitializationExpression",
+            "line": 7,
             "variableType": "let",
             "identifier": {
                 "type": "Identifier",
-                "name": "test1"
+                "name": "test1",
+                "originalName": "test1"
             },
             "value": {
                 "type": "Literal",
@@ -39,10 +45,12 @@
         },
         {
             "type": "InitializationExpression",
+            "line": 8,
             "variableType": "let",
             "identifier": {
                 "type": "Identifier",
-                "name": "test2"
+                "name": "test2",
+                "originalName": "test2"
             },
             "value": {
                 "type": "Literal",
@@ -51,10 +59,12 @@
         },
         {
             "type": "InitializationExpression",
+            "line": 9,
             "variableType": "let",
             "identifier": {
                 "type": "Identifier",
-                "name": "test3"
+                "name": "test3",
+                "originalName": "test3"
             },
             "value": {
                 "type": "Literal",
@@ -63,14 +73,17 @@
         },
         {
             "type": "InitializationExpression",
+            "line": 12,
             "variableType": "let",
             "identifier": {
                 "type": "Identifier",
-                "name": "test4"
+                "name": "test4",
+                "originalName": "test4"
             },
             "value": {
                 "type": "Identifier",
-                "name": "pi"
+                "name": "pi",
+                "originalName": "pi"
             }
         }
     ]

@@ -42,6 +42,7 @@ function isFunctionDeclaration(tokenLine) {
 }
 
 function parseFunctionDeclaration(currentTokenLine, tokenLines) {
+    const startLine = currentTokenLine[0].line;
     const tokens = cut(currentTokenLine, 2);
     const name = parseIdentifier(currentTokenLine);
     const parameters = [];
@@ -53,7 +54,7 @@ function parseFunctionDeclaration(currentTokenLine, tokenLines) {
             });
     }
 
-    const newFunction = FunctionDeclaration.new(name, parameters);
+    const newFunction = FunctionDeclaration.new(name, parameters, startLine);
 
     const body = parseBlockBody(tokenLines);
 
@@ -350,11 +351,12 @@ function parseGroup(tokenSet) {
 }
 
 function parseVariableInitialization(tokenLine) {
+    const line = tokenLine[0].line;
     const variableType = tokenLine[0].token;
-    const identifier = Identifier.new(tokenLine[1].token);
+    const identifier = parseIdentifier([tokenLine[1]]);
     const value = parseTokenSet(cut(tokenLine, 3));
 
-    return InitializationExpression.new(variableType, identifier, value);
+    return InitializationExpression.new(variableType, identifier, value, line);
 }
 
 function parseVariableUpdate(tokenLine) {
@@ -371,7 +373,7 @@ function parseLiteral(tokenSet) {
 }
 
 function parseIdentifier(tokenSet) {
-    return Identifier.new(tokenSet[0].token);
+    return Identifier.new(tokenSet[0].token, tokenSet[0].originalToken);
 }
 
 function parseFunctionCall(tokenSet) {

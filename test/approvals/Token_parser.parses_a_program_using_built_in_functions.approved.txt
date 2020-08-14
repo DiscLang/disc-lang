@@ -13,10 +13,12 @@
         },
         {
             "type": "InitializationExpression",
+            "line": 3,
             "variableType": "let",
             "identifier": {
                 "type": "Identifier",
-                "name": "result"
+                "name": "result",
+                "originalName": "result"
             },
             "value": {
                 "type": "FunctionCall",
@@ -35,10 +37,12 @@
         },
         {
             "type": "InitializationExpression",
+            "line": 4,
             "variableType": "let",
             "identifier": {
                 "type": "Identifier",
-                "name": "result"
+                "name": "result",
+                "originalName": "result"
             },
             "value": {
                 "type": "FunctionCall",

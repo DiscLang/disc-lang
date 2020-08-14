@@ -1,9 +1,10 @@
 const { promisifyExec } = require('./utils/promisify');
 const indent = require('./utils/indent');
 
-function FunctionDeclaration(name, parameters) {
+function FunctionDeclaration(name, parameters, line) {
     this.type = 'FunctionDeclaration';
     this.name = name;
+    this.line = line;
     this.parameters = parameters;
     this.body = [];
 }
@@ -55,8 +56,8 @@ FunctionDeclaration.prototype = {
     }
 };
 
-FunctionDeclaration.new = function (name, parameters) {
-    return new FunctionDeclaration(name, parameters);
+FunctionDeclaration.new = function (name, parameters, line) {
+    return new FunctionDeclaration(name, parameters, line);
 };
 
 module.exports = FunctionDeclaration;

@@ -113,7 +113,8 @@
                             "blockType": "if",
                             "condition": {
                                 "type": "Identifier",
-                                "name": "test1"
+                                "name": "test1",
+                                "originalName": "test1"
                             },
                             "success": [
                                 {

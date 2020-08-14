@@ -55,10 +55,15 @@ function captureString(characterSet) {
     return [finalString, characterOffset];
 }
 
-function buildToken(tokenString, line) {
+function buildToken(originalTokenString, line) {
+    const tokenString = originalTokenString[0] === stringBeginIndicator
+        ? originalTokenString
+        : originalTokenString.toLowerCase();
+
     return {
         line: line,
         token: tokenString,
+        originalToken: originalTokenString,
         type: grammar.getTokenType(tokenString)
     }
 }
@@ -66,11 +71,7 @@ function buildToken(tokenString, line) {
 function getTokenCapture(tokens) {
     return function pushToken(token, line) {
         if (token !== '') {
-            const capturedToken = token[0] === stringBeginIndicator
-                ? token
-                : token.toLowerCase();
-
-            tokens.push(buildToken(capturedToken, line));
+            tokens.push(buildToken(token, line));
         }
     }
 }

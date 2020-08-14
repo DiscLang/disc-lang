@@ -3,10 +3,12 @@
     "body": [
         {
             "type": "InitializationExpression",
+            "line": 2,
             "variableType": "let",
             "identifier": {
                 "type": "Identifier",
-                "name": "counter"
+                "name": "counter",
+                "originalName": "counter"
             },
             "value": {
                 "type": "Literal",
@@ -20,7 +22,8 @@
                 "operator": "islessthan",
                 "left": {
                     "type": "Identifier",
-                    "name": "counter"
+                    "name": "counter",
+                    "originalName": "counter"
                 },
                 "right": {
                     "type": "Literal",
@@ -34,7 +37,8 @@
                     "arguments": [
                         {
                             "type": "Identifier",
-                            "name": "counter"
+                            "name": "counter",
+                            "originalName": "counter"
                         }
                     ]
                 },
@@ -51,7 +55,8 @@
                             "operator": "+",
                             "left": {
                                 "type": "Identifier",
-                                "name": "counter"
+                                "name": "counter",
+                                "originalName": "counter"
                             },
                             "right": {
                                 "type": "Literal",
