@@ -179,7 +179,7 @@ module.exports = function ({
         if (typeof window === 'object') {
             return new Promise(function (resolve) {
                 setTimeout(function () {
-                    const response = prompt(message);
+                    const response = definedPrompt(message);
 
                     const sanitizedResponse = response === null
                         ? ''
