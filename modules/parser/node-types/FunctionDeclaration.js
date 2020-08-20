@@ -53,6 +53,8 @@ FunctionDeclaration.prototype = {
         };
 
         scope.define(this.name.name.toLowerCase(), newFunction);
+
+        return newFunction;
     }
 };
 
