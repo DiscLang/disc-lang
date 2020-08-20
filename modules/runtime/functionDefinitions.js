@@ -155,6 +155,19 @@ module.exports = function ({
         return dictionary;
     };
 
+    finalApi.updateOn = function (collection, key, value) {
+        if(collection instanceof Dictionary) {
+            console.log('Update key: ', key);
+            collection.set(key.toLowerCase(), value);
+        } else if (Array.isArray(collection)) {
+            collection[key - 1] = value;
+        } else {
+            throw new Error('Values may only be updated on a dictionary or array.');
+        }
+
+        return collection;
+    };
+
     finalApi.isNil = function (value) {
         return value instanceof Nil;
     };
