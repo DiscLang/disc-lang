@@ -1,3 +1,5 @@
+const { Nil } = require('./Nil');
+
 function EnvironmentTable(parent = null) {
     this.identifiers = {};
     this.parent = parent;
@@ -15,9 +17,16 @@ EnvironmentTable.prototype = {
         });
     },
 
+    matchesOriginalType: function (originalType, value) {
+        return (originalType === 'array' && Array.isArray(value))
+            || (value instanceof Nil)
+            || typeof value === originalType;
+    },
+    
     initialize: function (key, value) {
-        const originalType = typeof value;
+        const originalType = Array.isArray(value) ? 'array' : typeof value;
         let varValue = value;
+        let matchesOriginalType = this.matchesOriginalType;
 
         Object.defineProperty(this.identifiers, key, {
             get: function () {
@@ -25,7 +34,7 @@ EnvironmentTable.prototype = {
             },
 
             set: function (newValue) {
-                if (typeof newValue !== originalType) {
+                if (!matchesOriginalType(originalType, newValue)) {
                     throw new Error(`Cannot assign '${newValue}' to '${key}'. New value type must be '${originalType}'`);
                 }
 
