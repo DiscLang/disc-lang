@@ -1,12 +1,7 @@
 const { promisifyExec } = require('./utils/promisify');
-const { Nil } = require('../../runtime/Nil');
 
 function InitializationExpression(variableType, identifier, value, line) {
     this.type = 'InitializationExpression';
-
-    if(value instanceof Nil) {
-        throw new Error('Nil cannot be used to initialize a constant or variable.');
-    }
 
     this.line = line;
     this.variableType = variableType;

@@ -1,4 +1,5 @@
 const { Nil } = require('./Nil');
+const { Dictionary } = require('./Dictionary');
 
 function EnvironmentTable(parent = null) {
     this.identifiers = {};
@@ -17,16 +18,28 @@ EnvironmentTable.prototype = {
         });
     },
 
-    matchesOriginalType: function (originalType, value) {
-        return (originalType === 'array' && Array.isArray(value))
-            || (value instanceof Nil)
-            || typeof value === originalType;
+    getValueType: function (value) {
+        if (Array.isArray(value)) {
+            return 'array';
+        } else if (value instanceof Nil) {
+            return 'nil';
+        } else if (value instanceof Dictionary) {
+            return 'dictionary';
+        } else {
+            return typeof value;
+        }
     },
-    
+
+    matchesOriginalType: function (originalType, value) {
+        return value instanceof Nil || originalType === this.getValueType(value);
+    },
+
     initialize: function (key, value) {
-        const originalType = Array.isArray(value) ? 'array' : typeof value;
+        const getValueType = this.getValueType;
+        const matchesOriginalType = this.matchesOriginalType.bind(this);
+
+        const originalType = this.getValueType(value);
         let varValue = value;
-        let matchesOriginalType = this.matchesOriginalType;
 
         Object.defineProperty(this.identifiers, key, {
             get: function () {
@@ -35,7 +48,7 @@ EnvironmentTable.prototype = {
 
             set: function (newValue) {
                 if (!matchesOriginalType(originalType, newValue)) {
-                    throw new Error(`Cannot assign '${newValue}' to '${key}'. New value type must be '${originalType}'`);
+                    throw new Error(`Cannot assign '${newValue}' to '${key}'. New value type must be '${originalType}', but got '${getValueType(newValue)}'`);
                 }
 
                 varValue = newValue;
