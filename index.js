@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const fs = require('fs');
 const path = require('path');
 const programLoader = require('./modules/runtime/programLoader');
@@ -5,7 +7,7 @@ const programLoader = require('./modules/runtime/programLoader');
 const sourceFileName = process.argv.slice(2)[0];
 
 function loadSource(fileName) {
-    const filePath = path.join(__dirname, fileName);
+    const filePath = path.join(process.cwd(), fileName);
     return fs.readFileSync(filePath, { encoding: 'utf8' });
 }
 

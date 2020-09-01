@@ -30,7 +30,9 @@ FunctionDeclaration.prototype = {
     execute: async function (scope) {
         const newFunction = async (...args) => {
             
-            if (args.length !== this.parameters.length) {
+            if(args.length < this.parameters.length) {
+                return (...rest) => this.execute(...(args.concat(rest)));
+            } else if (args.length > this.parameters.length) {
                 throw new Error(`Function '${this.name}' takes ${this.parameters.length} arguments, but received ${args.length}.`);
             }
             

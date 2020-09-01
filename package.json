@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Interactive programming language - computing for people",
   "main": "index.js",
+  "bin":{
+    "disc": "./index.js"
+  },
   "scripts": {
     "hello": "node ./ ./test/live-tests/hello-world.disc",
     "temp": "node ./ ./test/live-tests/temp.disc",
