@@ -41,7 +41,7 @@ FunctionDeclaration.prototype = {
             for (let i = 0; i < this.parameters.length; i++) {
                 const parameterName = this.parameters[i].toString();
 
-                localScope.initialize(parameterName, args[i]);
+                localScope.define(parameterName, args[i]);
             }
 
             let result;
